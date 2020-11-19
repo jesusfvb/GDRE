@@ -1,0 +1,19 @@
+.myCenter {
+  padding-top: 20vh;
+}
+
+.colorBodyLogin {
+  background-color: rgb(197, 188, 188);
+  background-image: url(./App/helpers/img/grafica_login.png);
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: 100% 50%;
+}
+
+.colorLogin {
+  background-color: #fcfcfc !important;
+  background-image: url(./App/helpers/img/grafica.jpg);
+  background-position: right top;
+  background-repeat: no-repeat;
+  background-size: 80% 20%;
+}

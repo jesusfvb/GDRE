@@ -1,8 +1,13 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import logo from "./helpers/img/logo.png";
+
 import { Button, Col, Container, Form, Image, Row } from "react-bootstrap";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+
+import logo from "./helpers/img/logo.png";
 import { POST, PUT } from "./helpers/_Axion";
+import Error404 from "./components/_Error404";
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -63,7 +68,7 @@ class App extends React.Component {
     } else if (!this.state.login) {
       document.getElementsByTagName("body")[0].classList.add("colorBodyLogin");
       return (
-        <Container fluid className="myCenter ">
+        <Container fluid className="centerLogin">
           <Row>
             <Col></Col>
             <Col
@@ -108,13 +113,11 @@ class App extends React.Component {
         .getElementsByTagName("body")[0]
         .classList.remove("colorBodyLogin");
       return (
-        <div>
-          <label>{this.state.userName}</label>
-          {this.state.authorities.map((authority, key) => (
-            <label key={key}>_{authority}</label>
-          ))}
-          <button onClick={this.handleLogout}>Logout</button>
-        </div>
+        <BrowserRouter>
+          <Switch>
+            <Route component={Error404} />
+          </Switch>
+        </BrowserRouter>
       );
     }
   }

@@ -1,5 +1,9 @@
-.myCenter {
+.centerLogin {
   padding-top: 20vh;
+}
+
+.centerError404 {
+  padding-top: 15vh;
 }
 
 .colorBodyLogin {
@@ -16,4 +20,8 @@
   background-position: right top;
   background-repeat: no-repeat;
   background-size: 80% 20%;
+}
+
+.colorBodyError404 {
+  background-color: rgb(228, 213, 213);
 }

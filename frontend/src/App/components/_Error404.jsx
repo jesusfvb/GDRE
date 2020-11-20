@@ -3,6 +3,7 @@ import { Col, Container, Row } from "react-bootstrap";
 
 const Error404 = () => {
   let body = document.getElementsByTagName("body")[0];
+  body.classList.remove("colorBody");
   body.classList.add("colorBodyError404");
   return (
     <Container fluid className="centerError404 text-center">

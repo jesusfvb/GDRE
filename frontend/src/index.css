@@ -6,14 +6,6 @@
   padding-top: 15vh;
 }
 
-.colorBodyLogin {
-  background-color: rgb(197, 188, 188);
-  background-image: url(./App/helpers/img/grafica_login.png);
-  background-repeat: no-repeat;
-  background-position: left top;
-  background-size: 100% 50%;
-}
-
 .colorLogin {
   background-color: #fcfcfc !important;
   background-image: url(./App/helpers/img/grafica.jpg);
@@ -21,7 +13,24 @@
   background-repeat: no-repeat;
   background-size: 80% 20%;
 }
+.colorBody {
+  background-color: rgb(255, 240, 240);
+}
 
+.colorBodyLogin {
+  background-color: rgb(197, 188, 188);
+  background-image: url(./App/helpers/img/grafica_login.png);
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: 100% 50%;
+}
 .colorBodyError404 {
   background-color: rgb(228, 213, 213);
+}
+.colorNavbar {
+  background-color: rgb(255, 95, 95) !important;
+}
+
+.salir {
+  min-width: 80px !important;
 }

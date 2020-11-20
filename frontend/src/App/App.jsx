@@ -1,12 +1,14 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./helpers/icons/icomoon.css";
 
 import { Button, Col, Container, Form, Image, Row } from "react-bootstrap";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
 import logo from "./helpers/img/logo.png";
 import { POST, PUT } from "./helpers/_Axion";
 import Error404 from "./components/_Error404";
+import Home from "./components/_Home";
 
 class App extends React.Component {
   constructor(props) {
@@ -35,9 +37,10 @@ class App extends React.Component {
             authorities: data,
           });
         })
-        .catch((error) =>
-          console.error("error al comprobar si estaba autenticado", error)
-        );
+        .catch((error) => {
+          console.error("error al comprobar si estaba autenticado", error);
+          this.setState({ login: false });
+        });
     }
   }
   handleLogin(e) {
@@ -115,7 +118,18 @@ class App extends React.Component {
       return (
         <BrowserRouter>
           <Switch>
-            <Route component={Error404} />
+            <Redirect exact to="/home" from="/" />
+            <Route
+              exact
+              path="/home"
+              render={() => (
+                <Home
+                  userName={this.state.userName}
+                  handleLogout={this.handleLogout}
+                />
+              )}
+            />
+            <Route exact component={Error404} />
           </Switch>
         </BrowserRouter>
       );

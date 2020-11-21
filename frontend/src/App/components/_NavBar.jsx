@@ -7,7 +7,7 @@ import logo from "../helpers/img/logo.png";
 const NavBar = ({ userName, handleLogout }) => {
   return (
     <Row className="colorNavbar m-0 shadow border fixed-top">
-      <Col className="p-0" xl="2" lg="3" md="4" sm="6" xs="7">
+      <Col className="p-0" xl="2" lg="3" md="3" sm="6" xs="4">
         <Image src={logo} width="200" className="mb-1 mt-1" />
       </Col>
       <Col className="p-0">
@@ -43,7 +43,12 @@ const NavBar = ({ userName, handleLogout }) => {
             {userName}
           </Dropdown.Toggle>
           <Dropdown.Menu className="salir">
-            <Dropdown.Item onClick={() => handleLogout()} className="p-0 pl-2 pr-2"> <i className="icon-power3"></i> Salir</Dropdown.Item>
+            <Dropdown.Item
+              onClick={() => handleLogout()}
+              className="p-0 pl-2 pr-2"
+            >
+              <i className="icon-power3"></i> Salir
+            </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </Col>

@@ -7,7 +7,7 @@ import guardia from "../helpers/img/guardia.jpg";
 import ubicacion from "../helpers/img/ubicacion.jpg";
 import { Link } from "react-router-dom";
 
-const Home = ({ userName, handleLogout }) => {
+const Home = () => {
   let body = document.getElementsByTagName("body")[0];
   body.classList.remove("colorBodyError404");
   body.classList.add("colorBody");
@@ -15,14 +15,14 @@ const Home = ({ userName, handleLogout }) => {
     <Container fluid>
       <Row>
         <Col className="p-0">
-          <NavBar userName={userName} handleLogout={handleLogout} />
+          <NavBar />
         </Col>
       </Row>
       <Row className="mt-5">
         <Col className="mt-5">
           <Row className="mt-1">
             <Col></Col>
-            <Col xl="11" lg="11" md="11" sm="11" xs="11">
+            <Col xl="11" lg="11" md="10" sm="12" xs="11">
               <Row>
                 <Col className="mt-4 mb-4" xl="3" lg="4" md="6" sm="6" xs="10">
                   <Card style={{ width: "18rem" }} className="shadow">

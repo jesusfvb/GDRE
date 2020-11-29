@@ -34,3 +34,20 @@
 .salir {
   min-width: 80px !important;
 }
+
+.botonesTablaUsuario {
+  position: fixed;
+  bottom: 5%;
+  left: calc(50vw - 40px);
+}
+
+.iconoChecked {
+  font-size: 140%;
+  cursor: pointer;
+  background-color: white;
+}
+
+.iconoPermiso {
+  cursor: pointer;
+  background-color: white;
+}

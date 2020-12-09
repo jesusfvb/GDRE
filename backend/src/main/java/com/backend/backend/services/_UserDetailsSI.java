@@ -24,7 +24,7 @@ public class _UserDetailsSI implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String arg0) throws UsernameNotFoundException {
-        _User pivote = serviceUser.getUserByUserName(arg0).block();
+        _User pivote = serviceUser.getUserByUserName(arg0);
         Set<GrantedAuthority> authorities = new HashSet<>();
         pivote.getAuthorities().forEach(authority -> {
             authorities.add(new SimpleGrantedAuthority(authority.getValue()));

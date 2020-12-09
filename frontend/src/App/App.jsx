@@ -39,7 +39,7 @@ const App = () => {
       });
       console.error("error al iniciar sesión");
     } else {
-      PUT("/login", { jwt: jwt })
+      PUT("/login", { jwt: jwt }, false)
         .then((response) => {
           let Jwt = require("jsonwebtoken");
           let data = Jwt.decode(jwt).sub.split(",");
@@ -62,10 +62,14 @@ const App = () => {
 
   function handleLogin(e) {
     e.preventDefault();
-    POST("/login", {
-      userName: e.target.userName.value,
-      password: e.target.password.value,
-    })
+    POST(
+      "/login",
+      {
+        userName: e.target.userName.value,
+        password: e.target.password.value,
+      },
+      false
+    )
       .then((response) => {
         window.localStorage.setItem("jwt", response.jwt);
         let Jwt = require("jsonwebtoken");

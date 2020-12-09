@@ -20,7 +20,7 @@ public class _JwtS {
 
     public String extractUserName(String token) {
         String salida = extractClaim(token, Claims::getSubject);
-        // salida = salida.substring(0, salida.indexOf("ROLE"));
+        salida = salida.substring(0, salida.indexOf(","));
         return salida;
     }
 

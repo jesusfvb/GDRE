@@ -24,6 +24,9 @@ public class _User implements Serializable {
     private String name;
 
     @Column
+    private String identification;
+
+    @Column
     private String userName;
 
     @Column
@@ -35,8 +38,9 @@ public class _User implements Serializable {
     public _User() {
     }
 
-    public _User(String name, String userName, String password) {
+    public _User(String name, String identification, String userName, String password) {
         this.name = name;
+        this.identification = identification;
         this.userName = userName;
         this.password = password;
         authorities = new HashSet<>();
@@ -56,6 +60,14 @@ public class _User implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getIdentification() {
+        return identification;
+    }
+
+    public void setIdentification(String identification) {
+        this.identification = identification;
     }
 
     public String getPassword() {

@@ -1,19 +1,24 @@
 package com.backend.backend.services;
 
+import java.util.List;
+
 import com.backend.backend.models._User;
 
 import org.springframework.stereotype.Service;
 
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
 @Service
 public interface _UserS {
     // All options of User
-    public Mono<_User> getUserByUserName(String userName);
+    public _User getUserByUserName(String userName);
 
-    public Flux<_User> newUser(String name, String userName, String password);
+    public List<_User> newUser(String name,String identification , String userName, String password);
+
+    public List<_User> listUser();
+
+    public List<_User> deleteUser(Integer ids[]);
+
+    public List<_User> updateUser(Integer id, String opcion, Object value);
 
     // All options of Authority
-    public Mono<Void> newAuthority(Integer id, String value, String description);
+    public void newAuthority(Integer id, String value, String description);
 }

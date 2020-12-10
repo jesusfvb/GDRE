@@ -13,7 +13,7 @@ import Permisos from "./_Permisos";
 //Se encarga de la gestión de los usuarios
 const Users = () => {
   const url = "/user";
-  const [showPermisos, setShowPermisos] = useState({ show: false });
+  const [showPermisos, setShowPermisos] = useState({ show: false, data: {} });
   const [data, setData] = useState([]);
   const [filtro, setFiltro] = useState("");
 
@@ -27,9 +27,9 @@ const Users = () => {
   }, []);
 
   //Modifica la variable global(showPermisos) para acceder a la interfaz de manejo de los permisos
-  function handleShowPermiso(e) {
+  function handleShowPermiso(dato, e) {
     e.preventDefault();
-    setShowPermisos({ show: !showPermisos.show });
+    setShowPermisos({ show: !showPermisos.show, data: dato });
   }
 
   //Realiza la opción de seleccionar todos
@@ -161,7 +161,7 @@ const Users = () => {
                   </td>
                   <td className="text-center">
                     <i
-                      onClick={handleShowPermiso}
+                      onClick={handleShowPermiso.bind(this, dato)}
                       className="icon-list2 shadow-sm iconoPermiso"
                     ></i>
                   </td>
@@ -238,7 +238,7 @@ const Users = () => {
       </>
     );
   } else {
-    return <Permisos show={handleShowPermiso} />;
+    return <Permisos show={handleShowPermiso} data={showPermisos.data} />;
   }
 };
 export default Users;

@@ -40,6 +40,7 @@ const Marco = (props) => {
       </Row>
       <Row className="mt-4">
         <Col className="mt-4">
+          {props.beforeTable}
           <Table bordered hover size="sm" responsive>
             {props.children}
           </Table>

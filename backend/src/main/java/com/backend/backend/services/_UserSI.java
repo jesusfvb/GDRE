@@ -26,6 +26,25 @@ public class _UserSI implements _UserS {
         repositoryAuthority.save(new _Authority(id, value, description));
     }
 
+    @Override
+    public List<_Authority> listAuthorityNoIsUserId(Integer id) {
+        return repositoryAuthority.listAuthorsNoIsUserId(id);
+    }
+
+    @Override
+    public void addAuthorityOnUser(Integer idUser, Integer idAuthority) {
+        _User user = repositoryUser.findById(idUser).get();
+        user.getAuthorities().add(repositoryAuthority.findById(idAuthority).get());
+        repositoryUser.save(user);
+    }
+
+    @Override
+    public void removeAuthorityOnUser(Integer idUser, Integer idAuthority) {
+        _User user = repositoryUser.findById(idUser).get();
+        user.getAuthorities().removeIf(authority -> authority.getId() == idAuthority);
+        repositoryUser.save(user);
+    }
+
     // All method of Users
     @Autowired
     private _UserI repositoryUser;

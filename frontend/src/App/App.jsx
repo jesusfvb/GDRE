@@ -11,6 +11,7 @@ import Error404 from "./components/_Error404";
 import Home from "./components/_Home";
 import Users from "./components/_Users";
 
+//Constante que guardia en nombre de usuario, los permisos y una función para serrar sesión
 export const Session = React.createContext({
   userName: "",
   authorities: [],
@@ -29,6 +30,7 @@ const App = () => {
     handleLoad();
   }, []);
 
+  //Comprueba si se encuentra el token de autenticación y si es asi comprueba en el servidor si este es valido para saver si estas autenticado
   function handleLoad() {
     let jwt = window.localStorage.getItem("jwt");
     if (jwt === null || jwt === undefined) {
@@ -60,6 +62,8 @@ const App = () => {
     }
   }
 
+  //Coge los datos del formulario de autenticación y los envía as servidor para validarlos y permitir el acceso a la aplicación mediante la gestión del jwt
+  // y transform los datos del jwt en el userName , los roles y los pone en el estado
   function handleLogin(e) {
     e.preventDefault();
     POST(
@@ -83,6 +87,7 @@ const App = () => {
       .catch((error) => console.error(error));
   }
 
+  //Permite la salida de la aplicación mediante la elimination del jwt del storage y volviendo el estado a como estaba inicialmente
   function handleLogout() {
     window.localStorage.clear();
     setSession({
@@ -92,6 +97,7 @@ const App = () => {
     });
   }
 
+  //Permite la animación del input de búsqueda cundo se hace el scroll en la aplicación
   function handleScroll() {
     let scroll = 0;
     document.addEventListener("scroll", () => {
@@ -107,6 +113,8 @@ const App = () => {
     });
   }
 
+  //Renderiza el formulario o la aplicación según el usuario esta autenticado o no 
+  //También esta implementada aquí el manejo de rutas 
   if (session.login == null) {
     return null;
   } else if (!session.login) {

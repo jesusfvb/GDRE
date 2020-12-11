@@ -10,8 +10,9 @@ import {
 import NavBar from "../components/_NavBar";
 
 //Retorna la estructura básica de las páginas que incluye un input para filtrar u se le pasa como hijos la estructura interna de una tabla
+//también se le puede incluir un elemento antes de la tabla por las props.beforeTable
 const Marco = (props) => {
-  //Recibe los cambios que se manifiestan en el input de filtrar y le pasa a la función de manejo de estado del filtro mediante las props
+  //Recibe los cambios que se manifiestan en el input de filtrar y le pasa a la función de manejo de estado del filtro mediante las props.filtro
   function handleChangeFiltra(e) {
     e.preventDefault();
     if (props.filtro !== undefined) {

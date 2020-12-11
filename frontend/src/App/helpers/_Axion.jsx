@@ -1,3 +1,4 @@
+//Todos los métodos necesarios para la conexión con el servidor se le pueden poner si quieren llevar el jwt de autentificacion por default lo llevan
 var server = "http://" + window.location.hostname + ":8080";
 
 const Fetch = (url, data, method, authorization) => {

@@ -45,6 +45,8 @@ export const validadorInputs = (inputs) => {
   return validoGeneral;
 };
 
+//Función que se encarga de validar los input, se le pasa el input a validad y la opcion por la que este se validara y este le coloca la clase "is-invalidM" retorna si es valido o no
+//Solo se a implementado para validar los textarea
 export const validadorInput = (input, option) => {
   let valido = false;
   switch (option) {

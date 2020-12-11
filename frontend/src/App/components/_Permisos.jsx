@@ -12,6 +12,7 @@ const Permisos = (props) => {
     backend: [],
   });
   const [filtro, setFiltro] = useState("");
+  //Carga los permisos del backend que no tiene el usuario
   useEffect(() => {
     GET(url)
       .then((data) =>
@@ -23,6 +24,7 @@ const Permisos = (props) => {
       .catch((error) => console.error(error));
   }, [url]);
 
+  //Le quita los permiso del usuario y actualiza el estado en el backend
   function handleQuitar(dato, e) {
     e.preventDefault();
     DELETE(url, { id: dato.id }).then((d) => {
@@ -41,6 +43,7 @@ const Permisos = (props) => {
     });
   }
 
+  //Le añade los permiso al usuario y actualiza el estado en el backend
   function handleAnnadir(dato, e) {
     e.preventDefault();
     POST(url, { id: dato.id })

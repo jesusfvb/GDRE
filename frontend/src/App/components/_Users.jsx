@@ -122,6 +122,7 @@ const Users = () => {
             </tr>
           </thead>
           <tbody>
+            {/* Se filtra antes de mostrar */}
             {filtros().map((dato) =>
               dato.id === 1 ? null : (
                 <tr key={dato.id}>
@@ -176,6 +177,7 @@ const Users = () => {
             )}
           </tbody>
         </Marco>
+        {/* Botones flotantes  */}
         <div className="botonesTablaUsuario">
           <ButtonToolbar className="mb-5">
             <ButtonGroup className="mr-2">

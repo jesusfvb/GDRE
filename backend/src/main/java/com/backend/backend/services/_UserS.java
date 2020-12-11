@@ -21,11 +21,12 @@ public interface _UserS {
     public List<_User> updateUser(Integer id, String opcion, Object value);
 
     // All options of Authority
-    public void newAuthority(Integer id, String value, String description);
-
     public List<_Authority> listAuthorityNoIsUserId(Integer id);
 
     public void addAuthorityOnUser(Integer idUser, Integer idAuthority);
 
     public void removeAuthorityOnUser(Integer idUser, Integer idAuthority);
+
+    // Método para iniciar la aplicación
+    public void createAuthorityAndUserAdmin();
 }

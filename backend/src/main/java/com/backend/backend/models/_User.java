@@ -46,6 +46,15 @@ public class _User implements Serializable {
         authorities = new HashSet<>();
     }
 
+    public _User(Integer id, String name, String identification, String userName, String password) {
+        this.id = id;
+        this.name = name;
+        this.identification = identification;
+        this.userName = userName;
+        this.password = password;
+        this.authorities = new HashSet<>();
+    }
+
     public Integer getId() {
         return id;
     }
@@ -98,4 +107,5 @@ public class _User implements Serializable {
     public String toString() {
         return "User [id=" + id + ", name=" + name + ", userName=" + userName + ", password" + password + " ]";
     }
+
 }

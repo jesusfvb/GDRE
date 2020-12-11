@@ -113,8 +113,8 @@ const App = () => {
     });
   }
 
-  //Renderiza el formulario o la aplicación según el usuario esta autenticado o no 
-  //También esta implementada aquí el manejo de rutas 
+  //Renderiza el formulario o la aplicación según el usuario esta autenticado o no
+  //También esta implementada aquí el manejo de rutas
   if (session.login == null) {
     return null;
   } else if (!session.login) {
@@ -174,7 +174,17 @@ const App = () => {
           <Switch>
             <Redirect exact to="/home" from="/" />
             <Route exact path="/home" component={Home} />
-            <Route exact path="/usuarios" component={Users} />
+            {!session.authorities.some(
+              (a) =>
+                a === "ADMINISTRADOR" ||
+                a === "GESTION-USUARIOS" ||
+                a === "MODIFICAR-USUARIOS" ||
+                a === "BORRAR-USUARIOS" ||
+                a === "AÑADIR-USUARIOS" ||
+                a === "DAR-PERMISO-USUARIOS"
+            ) ? null : (
+              <Route exact path="/usuarios" component={Users} />
+            )}
             <Route exact component={Error404} />
           </Switch>
         </Session.Provider>

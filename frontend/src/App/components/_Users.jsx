@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Button, ButtonGroup, ButtonToolbar, Col, Form } from "react-bootstrap";
 
@@ -7,8 +7,8 @@ import Formulario from "../helpers/_Form";
 import Marco from "../helpers/_Marco";
 import TextModificar from "../helpers/_TexModificar";
 import { validadorInput } from "../helpers/_Validaciones";
-
 import Permisos from "./_Permisos";
+import { Session } from "../App";
 
 //Se encarga de la gestión de los usuarios
 const Users = () => {
@@ -16,6 +16,32 @@ const Users = () => {
   const [showPermisos, setShowPermisos] = useState({ show: false, data: {} });
   const [data, setData] = useState([]);
   const [filtro, setFiltro] = useState("");
+  const session = useContext(Session);
+  //Contantes con los acceso a los recursos de gestion de usuario
+  const permisos = !session.authorities.some(
+    (a) =>
+      a === "ADMINISTRADOR" ||
+      a === "GESTION-USUARIOS" ||
+      a === "DAR-PERMISO-USUARIOS"
+  );
+  const annadir = !session.authorities.some(
+    (a) =>
+      a === "ADMINISTRADOR" ||
+      a === "GESTION-USUARIOS" ||
+      a === "AÑADIR-USUARIOS"
+  );
+  const borrar = !session.authorities.some(
+    (a) =>
+      a === "ADMINISTRADOR" ||
+      a === "GESTION-USUARIOS" ||
+      a === "BORRAR-USUARIOS"
+  );
+  const modificar = session.authorities.some(
+    (a) =>
+      a === "ADMINISTRADOR" ||
+      a === "GESTION-USUARIOS" ||
+      a === "MODIFICAR-USUARIOS"
+  );
 
   //Carga los datos del backend y los coloca en una variable global(data)
   useEffect(() => {
@@ -108,17 +134,19 @@ const Users = () => {
         <Marco filtro={setFiltro}>
           <thead>
             <tr>
-              <th width="20" className="text-center">
-                <i
-                  onClick={handleSelect}
-                  className="icon-android-checkbox-outline iconoChecked shadow-sm"
-                ></i>
-              </th>
+              {borrar ? null : (
+                <th width="20" className="text-center">
+                  <i
+                    onClick={handleSelect}
+                    className="icon-android-checkbox-outline iconoChecked shadow-sm"
+                  ></i>
+                </th>
+              )}
               <th>Nombre</th>
               <th>Identificación</th>
               <th>Usuario</th>
-              <th width="10">Permisos</th>
-              <th width="10">Borrar</th>
+              {permisos ? null : <th width="10">Permisos</th>}
+              {borrar ? null : <th width="10">Borrar</th>}
             </tr>
           </thead>
           <tbody>
@@ -126,17 +154,20 @@ const Users = () => {
             {filtros().map((dato) =>
               dato.id === 1 ? null : (
                 <tr key={dato.id}>
-                  <td>
-                    <Form.Check
-                      type="checkbox"
-                      label=""
-                      className="ml-2"
-                      name="checkTable"
-                      id={dato.id}
-                    />
-                  </td>
+                  {borrar ? null : (
+                    <td>
+                      <Form.Check
+                        type="checkbox"
+                        label=""
+                        className="ml-2"
+                        name="checkTable"
+                        id={dato.id}
+                      />
+                    </td>
+                  )}
                   <td>
                     <TextModificar
+                      isUpdate={modificar}
                       update={handleUpdate.bind(null, dato.id, "name")}
                     >
                       {dato.name}
@@ -144,6 +175,7 @@ const Users = () => {
                   </td>
                   <td>
                     <TextModificar
+                      isUpdate={modificar}
                       update={handleUpdate.bind(
                         null,
                         dato.id,
@@ -155,23 +187,28 @@ const Users = () => {
                   </td>
                   <td>
                     <TextModificar
+                      isUpdate={modificar}
                       update={handleUpdate.bind(null, dato.id, "userName")}
                     >
                       {dato.userName}
                     </TextModificar>
                   </td>
-                  <td className="text-center">
-                    <i
-                      onClick={handleShowPermiso.bind(this, dato)}
-                      className="icon-list2 shadow-sm iconoPermiso"
-                    ></i>
-                  </td>
-                  <td className="text-center">
-                    <i
-                      className="icon-bin shadow-sm iconoBorrar"
-                      onClick={handleDelete.bind(this, [dato.id])}
-                    ></i>
-                  </td>
+                  {permisos ? null : (
+                    <td className="text-center">
+                      <i
+                        onClick={handleShowPermiso.bind(this, dato)}
+                        className="icon-list2 shadow-sm iconoPermiso"
+                      ></i>
+                    </td>
+                  )}
+                  {borrar ? null : (
+                    <td className="text-center">
+                      <i
+                        className="icon-bin shadow-sm iconoBorrar"
+                        onClick={handleDelete.bind(this, [dato.id])}
+                      ></i>
+                    </td>
+                  )}
                 </tr>
               )
             )}
@@ -180,61 +217,65 @@ const Users = () => {
         {/* Botones flotantes  */}
         <div className="botonesTablaUsuario">
           <ButtonToolbar className="mb-5">
-            <ButtonGroup className="mr-2">
-              <Formulario
-                onSubmit={handleSubmit}
-                header="Añadir Usuario"
-                button={(cb) => (
-                  <Button variant="primary" onClick={cb}>
-                    <i className="icon-plus4"></i>
-                  </Button>
-                )}
-              >
-                <Form.Row>
-                  <Form.Group as={Col}>
-                    <Form.Label>Nombre</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter el Nombre"
-                      name="name"
-                    />
-                  </Form.Group>
+            {annadir ? null : (
+              <ButtonGroup className="mr-2">
+                <Formulario
+                  onSubmit={handleSubmit}
+                  header="Añadir Usuario"
+                  button={(cb) => (
+                    <Button variant="primary" onClick={cb}>
+                      <i className="icon-plus4"></i>
+                    </Button>
+                  )}
+                >
+                  <Form.Row>
+                    <Form.Group as={Col}>
+                      <Form.Label>Nombre</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter el Nombre"
+                        name="name"
+                      />
+                    </Form.Group>
 
-                  <Form.Group as={Col} controlId="formGridPassword">
-                    <Form.Label>Identificación</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Entre la Identificación"
-                      name="identification"
-                    />
-                  </Form.Group>
-                </Form.Row>
-                <Form.Row>
-                  <Form.Group as={Col}>
-                    <Form.Label>Usuario</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter el Usuario"
-                      name="userName"
-                    />
-                  </Form.Group>
+                    <Form.Group as={Col} controlId="formGridPassword">
+                      <Form.Label>Identificación</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Entre la Identificación"
+                        name="identification"
+                      />
+                    </Form.Group>
+                  </Form.Row>
+                  <Form.Row>
+                    <Form.Group as={Col}>
+                      <Form.Label>Usuario</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter el Usuario"
+                        name="userName"
+                      />
+                    </Form.Group>
 
-                  <Form.Group as={Col}>
-                    <Form.Label>Contraseña</Form.Label>
-                    <Form.Control
-                      type="password"
-                      placeholder="Entre la Contraseña"
-                      name="password"
-                    />
-                  </Form.Group>
-                </Form.Row>
-              </Formulario>
-            </ButtonGroup>
-            <ButtonGroup className="mr-2">
-              <Button variant="danger" onClick={handleDelete.bind(this, [])}>
-                <i className="icon-bin"></i>
-              </Button>
-            </ButtonGroup>
+                    <Form.Group as={Col}>
+                      <Form.Label>Contraseña</Form.Label>
+                      <Form.Control
+                        type="password"
+                        placeholder="Entre la Contraseña"
+                        name="password"
+                      />
+                    </Form.Group>
+                  </Form.Row>
+                </Formulario>
+              </ButtonGroup>
+            )}
+            {borrar ? null : (
+              <ButtonGroup className="mr-2">
+                <Button variant="danger" onClick={handleDelete.bind(this, [])}>
+                  <i className="icon-bin"></i>
+                </Button>
+              </ButtonGroup>
+            )}
           </ButtonToolbar>
         </div>
       </>

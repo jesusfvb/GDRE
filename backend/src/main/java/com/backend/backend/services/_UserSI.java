@@ -22,11 +22,6 @@ public class _UserSI implements _UserS {
     private _AuthorityI repositoryAuthority;
 
     @Override
-    public void newAuthority(Integer id, String value, String description) {
-        repositoryAuthority.save(new _Authority(id, value, description));
-    }
-
-    @Override
     public List<_Authority> listAuthorityNoIsUserId(Integer id) {
         return repositoryAuthority.listAuthorsNoIsUserId(id);
     }
@@ -94,4 +89,26 @@ public class _UserSI implements _UserS {
         return repositoryUser.getAllUsersOrderByName();
     }
 
+    // Método de inicio generar que crea los permisos y el user admin
+    @Override
+    public void createAuthorityAndUserAdmin() {
+        if (repositoryAuthority.count() != 7)
+            repositoryAuthority
+                    .save(new _Authority(0, "USER", "Permiso que se le añade a todos los Usuarios al Crearlos"));
+        repositoryAuthority.save(new _Authority(1, "ADMINISTRADOR", "Permite controlar la aplicación en su totalidad"));
+        repositoryAuthority
+                .save(new _Authority(2, "GESTION-USUARIOS", "Permite gestionar a los usuarios en su totalidad"));
+        repositoryAuthority.save(new _Authority(3, "MODIFICAR-USUARIOS", "Permite solamente modificar los usuarios"));
+        repositoryAuthority.save(new _Authority(4, "BORRAR-USUARIOS", "Permite solamente borrar los usuarios"));
+        repositoryAuthority.save(new _Authority(5, "AÑADIR-USUARIOS", "Permite solamente añadir usuarios"));
+        repositoryAuthority.save(new _Authority(6, "DAR-PERMISO-USUARIOS",
+                "Permite solamente dar y quitar los permisos a los usuarios"));
+        if (!repositoryUser.existsById(1)) {
+            _User admin = new _User(0, "Administrador", "Administrador", "admin", passwordEncoder.encode("1234"));
+            admin.getAuthorities().add(repositoryAuthority.findById(0).get());
+            admin.getAuthorities().add(repositoryAuthority.findById(1).get());
+            repositoryUser.save(admin);
+        }
+
+    }
 }

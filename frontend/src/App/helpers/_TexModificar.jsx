@@ -60,7 +60,9 @@ const TextModificar = (props) => {
     return (
       <>
         {props.children}
-        <i className="icon-edit2 ml-2 iconoEdit" onClick={handleUpdate}></i>
+        {props.isUpdate !== undefined && props.isUpdate === false ? null : (
+          <i className="icon-edit2 ml-2 iconoEdit" onClick={handleUpdate}></i>
+        )}
       </>
     );
   }

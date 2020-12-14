@@ -7,6 +7,9 @@ export const validadorInputs = (inputs) => {
       case "name":
         valido = name(i.value);
         break;
+      case "nameUbicacion":
+        valido = nameUbicacion(i.value);
+        break;
       case "identification":
         valido = identification(i.value);
         break;
@@ -15,6 +18,9 @@ export const validadorInputs = (inputs) => {
         break;
       case "password":
         valido = password(i.value);
+        break;
+      case "numberOfRoom":
+        valido = numberOfRoom(i.value);
         break;
       default:
         break;
@@ -53,6 +59,9 @@ export const validadorInput = (input, option) => {
     case "name":
       valido = name(input.value);
       break;
+    case "nameUbicacion":
+      valido = nameUbicacion(input.value);
+      break;
     case "identification":
       valido = identification(input.value);
       break;
@@ -61,6 +70,9 @@ export const validadorInput = (input, option) => {
       break;
     case "password":
       valido = password(input.value);
+      break;
+    case "numberOfRooms":
+      valido = numberOfRoom(input.value);
       break;
     default:
       break;
@@ -85,6 +97,11 @@ function name(value) {
   return salida !== null && salida[0] === value;
 }
 
+function nameUbicacion(value) {
+  let salida = /([A-Z]|[a-z]|[0-9])+/.exec(value);
+  return salida !== null && salida[0] === value;
+}
+
 function identification(value) {
   let salida = /[A-Z][0-9]{7}/.exec(value);
   return salida !== null && salida[0] === value;
@@ -97,5 +114,10 @@ function userName(value) {
 
 function password(value) {
   let salida = /([A-Z]|[a-z]|[0-9]){4,}/.exec(value);
+  return salida !== null && salida[0] === value;
+}
+
+function numberOfRoom(value) {
+  let salida = /[0-9]+/.exec(value);
   return salida !== null && salida[0] === value;
 }

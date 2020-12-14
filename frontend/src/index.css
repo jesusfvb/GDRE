@@ -35,7 +35,7 @@
   min-width: 80px !important;
 }
 
-.botonesTablaUsuario {
+.botonesTabla {
   position: fixed;
   bottom: 5%;
   left: calc(50vw - 40px);

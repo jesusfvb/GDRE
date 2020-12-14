@@ -11,37 +11,17 @@ import Permisos from "./_Permisos";
 import { Session } from "../App";
 
 //Se encarga de la gestión de los usuarios
-const Users = () => {
-  const url = "/user";
+const Ubicacion = () => {
+  const url = "/ubicacion";
   const [showPermisos, setShowPermisos] = useState({ show: false, data: {} });
   const [data, setData] = useState([]);
   const [filtro, setFiltro] = useState("");
   const session = useContext(Session);
   //Contantes con los acceso a los recursos de gestion de usuario
-  const permisos = !session.authorities.some(
-    (a) =>
-      a === "ADMINISTRADOR" ||
-      a === "GESTION-USUARIOS" ||
-      a === "DAR-PERMISO-USUARIOS"
-  );
-  const annadir = !session.authorities.some(
-    (a) =>
-      a === "ADMINISTRADOR" ||
-      a === "GESTION-USUARIOS" ||
-      a === "AÑADIR-USUARIOS"
-  );
-  const borrar = !session.authorities.some(
-    (a) =>
-      a === "ADMINISTRADOR" ||
-      a === "GESTION-USUARIOS" ||
-      a === "BORRAR-USUARIOS"
-  );
-  const modificar = session.authorities.some(
-    (a) =>
-      a === "ADMINISTRADOR" ||
-      a === "GESTION-USUARIOS" ||
-      a === "MODIFICAR-USUARIOS"
-  );
+  const permisos = !session.authorities.some((a) => a === "ADMINISTRADOR");
+  const annadir = !session.authorities.some((a) => a === "ADMINISTRADOR");
+  const borrar = !session.authorities.some((a) => a === "ADMINISTRADOR");
+  const modificar = session.authorities.some((a) => a === "ADMINISTRADOR");
 
   //Carga los datos del backend y los coloca en una variable global(data)
   useEffect(() => {
@@ -67,17 +47,13 @@ const Users = () => {
     checkBoxes.forEach((checkBox) => (checkBox.checked = true));
   }
 
-  //Función para añadir un nuevo usuario
+  //Función para añadir una nueva Ubicación
   function handleSubmit(inputs) {
     let dato0 = inputs[0].value;
     let dato1 = inputs[1].value;
-    let dato2 = inputs[2].value;
-    let dato3 = inputs[3].value;
     POST(url, {
       name: dato0,
-      identification: dato1,
-      userName: dato2,
-      password: dato3,
+      numberOfRooms: dato1,
     })
       .then((data) => setData(data))
       .catch((error) => console.error(error));
@@ -119,7 +95,8 @@ const Users = () => {
   //Función para filtra antes de mostrar los datos
   function filtros() {
     let salida = data.filter(
-      (d) => d.name.includes(filtro) || d.userName.includes(filtro)
+      (d) =>
+        d.name.includes(filtro) || d.numberOfRooms.toString().includes(filtro)
     );
     return salida;
   }
@@ -143,75 +120,60 @@ const Users = () => {
                 </th>
               )}
               <th>Nombre</th>
-              <th>Identificación</th>
-              <th>Usuario</th>
-              {permisos ? null : <th width="10">Permisos</th>}
-              {borrar ? null : <th width="10">Borrar</th>}
+              <th>Numero de Cuartos</th>
+              {permisos ? null : <th width="100">Cuartos</th>}
+              {borrar ? null : <th width="80">Borrar</th>}
             </tr>
           </thead>
           <tbody>
             {/* Se filtra antes de mostrar */}
-            {filtros().map((dato) =>
-              dato.id === 1 ? null : (
-                <tr key={dato.id}>
-                  {borrar ? null : (
-                    <td>
-                      <Form.Check
-                        type="checkbox"
-                        label=""
-                        className="ml-2"
-                        name="checkTable"
-                        id={dato.id}
-                      />
-                    </td>
-                  )}
+            {filtros().map((dato) => (
+              <tr key={dato.id}>
+                {borrar ? null : (
                   <td>
-                    <TextModificar
-                      isUpdate={modificar}
-                      update={handleUpdate.bind(null, dato.id, "name")}
-                    >
-                      {dato.name}
-                    </TextModificar>
+                    <Form.Check
+                      type="checkbox"
+                      label=""
+                      className="ml-2"
+                      name="checkTable"
+                      id={dato.id}
+                    />
                   </td>
-                  <td>
-                    <TextModificar
-                      isUpdate={modificar}
-                      update={handleUpdate.bind(
-                        null,
-                        dato.id,
-                        "identification"
-                      )}
-                    >
-                      {dato.identification}
-                    </TextModificar>
+                )}
+                <td>
+                  <TextModificar
+                    isUpdate={modificar}
+                    update={handleUpdate.bind(null, dato.id, "nameUbicacion")}
+                  >
+                    {dato.name}
+                  </TextModificar>
+                </td>
+                <td>
+                  <TextModificar
+                    isUpdate={modificar}
+                    update={handleUpdate.bind(null, dato.id, "numberOfRooms")}
+                  >
+                    {dato.numberOfRooms}
+                  </TextModificar>
+                </td>
+                {permisos ? null : (
+                  <td className="text-center">
+                    <i
+                      onClick={handleShowPermiso.bind(this, dato)}
+                      className="icon-list2 shadow-sm iconoPermiso"
+                    ></i>
                   </td>
-                  <td>
-                    <TextModificar
-                      isUpdate={modificar}
-                      update={handleUpdate.bind(null, dato.id, "userName")}
-                    >
-                      {dato.userName}
-                    </TextModificar>
+                )}
+                {borrar ? null : (
+                  <td className="text-center">
+                    <i
+                      className="icon-bin shadow-sm iconoBorrar"
+                      onClick={handleDelete.bind(this, [dato.id])}
+                    ></i>
                   </td>
-                  {permisos ? null : (
-                    <td className="text-center">
-                      <i
-                        onClick={handleShowPermiso.bind(this, dato)}
-                        className="icon-list2 shadow-sm iconoPermiso"
-                      ></i>
-                    </td>
-                  )}
-                  {borrar ? null : (
-                    <td className="text-center">
-                      <i
-                        className="icon-bin shadow-sm iconoBorrar"
-                        onClick={handleDelete.bind(this, [dato.id])}
-                      ></i>
-                    </td>
-                  )}
-                </tr>
-              )
-            )}
+                )}
+              </tr>
+            ))}
           </tbody>
         </Marco>
         {/* Botones flotantes  */}
@@ -221,7 +183,7 @@ const Users = () => {
               <ButtonGroup className="mr-2">
                 <Formulario
                   onSubmit={handleSubmit}
-                  header="Añadir Usuario"
+                  header="Añadir Ubicación"
                   button={(cb) => (
                     <Button variant="primary" onClick={cb}>
                       <i className="icon-plus4"></i>
@@ -230,39 +192,20 @@ const Users = () => {
                 >
                   <Form.Row>
                     <Form.Group as={Col}>
-                      <Form.Label>Nombre</Form.Label>
+                      <Form.Label>Nombre de la Ubicación</Form.Label>
                       <Form.Control
                         type="text"
-                        placeholder="Enter el Nombre"
-                        name="name"
-                      />
-                    </Form.Group>
-
-                    <Form.Group as={Col} controlId="formGridPassword">
-                      <Form.Label>Identificación</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Entre la Identificación"
-                        name="identification"
-                      />
-                    </Form.Group>
-                  </Form.Row>
-                  <Form.Row>
-                    <Form.Group as={Col}>
-                      <Form.Label>Usuario</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter el Usuario"
-                        name="userName"
+                        placeholder="Enter el Nombre de la Ubicación"
+                        name="nameUbicacion"
                       />
                     </Form.Group>
 
                     <Form.Group as={Col}>
-                      <Form.Label>Contraseña</Form.Label>
+                      <Form.Label>Número de Cuartos</Form.Label>
                       <Form.Control
-                        type="password"
-                        placeholder="Entre la Contraseña"
-                        name="password"
+                        type="number"
+                        placeholder="Entre el numero de Cuartos"
+                        name="numberOfRoom"
                       />
                     </Form.Group>
                   </Form.Row>
@@ -284,4 +227,4 @@ const Users = () => {
     return <Permisos show={handleShowPermiso} data={showPermisos.data} />;
   }
 };
-export default Users;
+export default Ubicacion;

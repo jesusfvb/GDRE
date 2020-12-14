@@ -10,6 +10,7 @@ import { POST, PUT } from "./helpers/_Axion";
 import Error404 from "./components/_Error404";
 import Home from "./components/_Home";
 import Users from "./components/_Users";
+import Ubicacion from "./components/_Ubicacion";
 
 //Constante que guardia en nombre de usuario, los permisos y una función para serrar sesión
 export const Session = React.createContext({
@@ -185,6 +186,7 @@ const App = () => {
             ) ? null : (
               <Route exact path="/usuarios" component={Users} />
             )}
+            <Route exact path="/ubicacion" component={Ubicacion} />
             <Route exact component={Error404} />
           </Switch>
         </Session.Provider>

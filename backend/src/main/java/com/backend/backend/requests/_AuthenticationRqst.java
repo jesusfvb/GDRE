@@ -1,7 +1,7 @@
 package com.backend.backend.requests;
 
 public class _AuthenticationRqst {
-    
+
     private String userName;
     private String password;
 
@@ -27,6 +27,11 @@ public class _AuthenticationRqst {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "{" + " userName='" + getUserName() + "'" + ", password='" + getPassword() + "'" + "}";
     }
 
 }

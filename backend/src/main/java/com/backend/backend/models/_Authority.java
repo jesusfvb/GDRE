@@ -55,6 +55,8 @@ public class _Authority implements Serializable {
 
     @Override
     public String toString() {
-        return "Authority [ id=" + id + ", value=" + value + ", description=" + description + " ]";
+        return "{" + " id='" + getId() + "'" + ", value='" + getValue() + "'" + ", description='" + getDescription()
+                + "'" + "}";
     }
+
 }

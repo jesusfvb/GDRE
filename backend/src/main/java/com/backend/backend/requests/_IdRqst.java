@@ -13,4 +13,10 @@ public class _IdRqst {
     public void setId(Integer id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "{" + " id='" + getId() + "'" + "}";
+    }
+
 }

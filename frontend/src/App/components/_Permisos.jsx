@@ -121,7 +121,7 @@ const Permisos = (props) => {
           ))}
         </tbody>
       </Marco>
-      <div className="botonesTablaUsuario">
+      <div className="botonesTabla">
         <ButtonToolbar className="mb-5">
           <ButtonGroup className="mr-2">
             <Button variant="primary" onClick={props.show.bind(this, {})}>

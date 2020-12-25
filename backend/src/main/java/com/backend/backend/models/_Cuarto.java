@@ -1,6 +1,7 @@
 package com.backend.backend.models;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -20,7 +21,7 @@ public class _Cuarto implements Serializable {
     private Integer id;
 
     @Column
-    private String name;
+    private Integer numero;
 
     @Column
     private Integer numberOfPeople;
@@ -31,6 +32,12 @@ public class _Cuarto implements Serializable {
     public _Cuarto() {
     }
 
+    public _Cuarto(Integer numero, Integer numberOfPeople) {
+        this.numero = numero;
+        this.numberOfPeople = numberOfPeople;
+        this.people = new HashSet<_User>();
+    }
+
     public Integer getId() {
         return id;
     }
@@ -39,12 +46,12 @@ public class _Cuarto implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getNumero() {
+        return numero;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNumero(Integer numero) {
+        this.numero = numero;
     }
 
     public Integer getNumberOfPeople() {
@@ -62,4 +69,11 @@ public class _Cuarto implements Serializable {
     public void setPeople(Set<_User> people) {
         this.people = people;
     }
+
+    @Override
+    public String toString() {
+        return "{" + " id='" + id + "'" + ", numero='" + numero + "'" + ", numberOfPeople='" + numberOfPeople + "'"
+                + ", people='" + people + "'" + "}";
+    }
+
 }

@@ -42,4 +42,10 @@ public class _NewUserRqst {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "{" + " name='" + getName() + "'" + ", identification='" + getIdentification() + "'" + ", userName='"
+                + getUserName() + "'" + ", password='" + getPassword() + "'" + "}";
+    }
+
 }

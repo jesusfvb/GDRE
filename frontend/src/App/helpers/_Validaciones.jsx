@@ -22,6 +22,12 @@ export const validadorInputs = (inputs) => {
       case "numberOfRoom":
         valido = numberOfRoom(i.value);
         break;
+      case "numero":
+        valido = numberTheRoom(i.value);
+        break;
+      case "numberOfPeople":
+        valido = numberOfPeople(i.value);
+        break;
       default:
         break;
     }
@@ -74,6 +80,12 @@ export const validadorInput = (input, option) => {
     case "numberOfRooms":
       valido = numberOfRoom(input.value);
       break;
+    case "numero":
+      valido = numberTheRoom(input.value);
+      break;
+    case "numberOfPeople":
+      valido = numberOfPeople(input.value);
+      break;
     default:
       break;
   }
@@ -118,6 +130,15 @@ function password(value) {
 }
 
 function numberOfRoom(value) {
+  let salida = /[0-9]+/.exec(value);
+  return salida !== null && salida[0] === value;
+}
+
+function numberTheRoom(value) {
+  let salida = /[0-9]+/.exec(value);
+  return salida !== null && salida[0] === value;
+}
+function numberOfPeople(value) {
   let salida = /[0-9]+/.exec(value);
   return salida !== null && salida[0] === value;
 }

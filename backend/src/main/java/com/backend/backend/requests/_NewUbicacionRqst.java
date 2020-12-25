@@ -23,4 +23,10 @@ public class _NewUbicacionRqst {
     public void setNumberOfRooms(Integer numberOfRooms) {
         this.numberOfRooms = numberOfRooms;
     }
+
+    @Override
+    public String toString() {
+        return "{" + " name='" + getName() + "'" + ", numberOfRooms='" + getNumberOfRooms() + "'" + "}";
+    }
+
 }

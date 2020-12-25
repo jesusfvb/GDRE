@@ -35,4 +35,9 @@ public class _UpdateRqst {
         this.value = value;
     }
 
+    @Override
+    public String toString() {
+        return "{" + " id='" + getId() + "'" + ", opcion='" + getOpcion() + "'" + ", value='" + getValue() + "'" + "}";
+    }
+
 }

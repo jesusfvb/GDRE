@@ -70,4 +70,10 @@ public class _Ubicacion implements Serializable {
         this.rooms = rooms;
     }
 
+    @Override
+    public String toString() {
+        return "{" + " id='" + getId() + "'" + ", name='" + getName() + "'" + ", numberOfRooms='" + getNumberOfRooms()
+                + "'" + ", rooms='" + getRooms() + "'" + "}";
+    }
+
 }

@@ -11,4 +11,10 @@ public class _AuthenticationRpse {
     public String getJwt() {
         return jwt;
     }
+
+    @Override
+    public String toString() {
+        return "{" + " jwt='" + getJwt() + "'" + "}";
+    }
+
 }

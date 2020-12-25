@@ -2,6 +2,7 @@ package com.backend.backend.services;
 
 import java.util.List;
 
+import com.backend.backend.models._Cuarto;
 import com.backend.backend.models._Ubicacion;
 
 import org.springframework.stereotype.Service;
@@ -17,4 +18,9 @@ public interface _UbicacionS {
 
     public List<_Ubicacion> updateUbicacion(Integer id, String opcion, Object value);
 
+    public _Cuarto newCuarto(Integer numero, Integer numberOfPeople, Integer idUbicacion);
+
+    public void deleteRooms(Integer idUbicacion, Integer[] ids);
+
+    public _Cuarto updateCuarto(Integer id, String opcion, Object value);
 }

@@ -1,31 +1,19 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { Button, ButtonGroup, ButtonToolbar, Col, Form } from "react-bootstrap";
 
-import { GET, POST, DELETE, PUT } from "../helpers/_Axion";
+import { POST, DELETE, PUT } from "../helpers/_Axion";
 import Formulario from "../helpers/_Form";
 import Marco from "../helpers/_Marco";
 import TextModificar from "../helpers/_TexModificar";
 import { validadorInput } from "../helpers/_Validaciones";
-import Cuartos from "./_Cuartos";
 import { Session } from "../App";
 
 //Se encarga de la gestión de los usuarios
-const Ubicacion = () => {
-  const url = "/ubicacion";
-  // const [showCuartos, setShowCuartos] = useState({ show: false, data: {} });
-  const [showCuartos, setShowCuartos] = useState({
-    // show: true,
-    // data: {
-    //   id: 3,
-    //   name: "11",
-    //   number_of_rooms: 22,
-    //   rooms: [],
-    // },
-    show: false,
-    data: {},
-  });
-  const [data, setData] = useState([]);
+const Cuartos = (props) => {
+  const url = "/ubicacion/cuartos";
+  const [showCuartos, setShowCuartos] = useState({ show: false, data: {} });
+  const [data, setData] = useState(props.data.rooms);
   const [filtro, setFiltro] = useState("");
   const session = useContext(Session);
   //Contantes con los acceso a los recursos de gestion de usuario
@@ -33,15 +21,6 @@ const Ubicacion = () => {
   const annadir = !session.authorities.some((a) => a === "ADMINISTRADOR");
   const borrar = !session.authorities.some((a) => a === "ADMINISTRADOR");
   const modificar = session.authorities.some((a) => a === "ADMINISTRADOR");
-
-  //Carga los datos del backend y los coloca en una variable global(data)
-  useEffect(() => {
-    GET(url)
-      .then((data) => {
-        setData(data);
-      })
-      .catch((error) => console.error(error));
-  }, []);
 
   //Modifica la variable global(showCuartos) para acceder a la interfaz de manejo de los cuartos
   function handleShowCuartos(dato, e) {
@@ -58,15 +37,18 @@ const Ubicacion = () => {
     checkBoxes.forEach((checkBox) => (checkBox.checked = true));
   }
 
-  //Función para añadir una nueva Ubicación
+  //Función para añadir un nuevo Cuarto
   function handleSubmit(inputs) {
     let dato0 = inputs[0].value;
     let dato1 = inputs[1].value;
     POST(url, {
-      name: dato0,
-      numberOfRooms: dato1,
+      numero: dato0,
+      numberOfPeople: dato1,
+      idUbicacion: props.data.id,
     })
-      .then((data) => setData(data))
+      .then((d) => {
+        setData([...data, d]);
+      })
       .catch((error) => console.error(error));
   }
 
@@ -81,8 +63,21 @@ const Ubicacion = () => {
     }
 
     if (ids.length !== 0) {
-      DELETE(url, ids)
-        .then((data) => setData(data))
+      DELETE(url, {
+        ids: ids,
+        idUbicacion: props.data.id,
+      })
+        .then((dat) => {
+          if (dat) {
+            ids.forEach((id) => {
+              data.splice(
+                data.findIndex((d) => d.id === id),
+                1
+              );
+            });
+            setData([...data]);
+          }
+        })
         .catch((error) => console.error(error));
     } else {
       console.error("Error en borrar barios");
@@ -98,7 +93,10 @@ const Ubicacion = () => {
         opcion: opcion,
         value: value.value,
       })
-        .then((data) => setData(data))
+        .then((dat) => {
+          data[data.findIndex((d) => d.id === id)] = dat;
+          setData([...data]);
+        })
         .catch((error) => console.error(error));
     }
   }
@@ -107,7 +105,8 @@ const Ubicacion = () => {
   function filtros() {
     let salida = data.filter(
       (d) =>
-        d.name.includes(filtro) || d.numberOfRooms.toString().includes(filtro)
+        d.numero.toString().includes(filtro) ||
+        d.numberOfPeople.toString().includes(filtro)
     );
     return salida;
   }
@@ -119,7 +118,10 @@ const Ubicacion = () => {
     return (
       <>
         {/* Se le pasa la función  que controla el estado del filtro */}
-        <Marco filtro={setFiltro}>
+        <Marco
+          filtro={setFiltro}
+          beforeTable={<h4>Ubicación: {props.data.name}</h4>}
+        >
           <thead>
             <tr>
               {borrar ? null : (
@@ -130,9 +132,9 @@ const Ubicacion = () => {
                   ></i>
                 </th>
               )}
-              <th>Nombre</th>
-              <th>Numero de Cuartos</th>
-              {permisos ? null : <th width="100">Cuartos</th>}
+              <th>Número</th>
+              <th>Número de Personas</th>
+              {permisos ? null : <th width="100">Personas</th>}
               {borrar ? null : <th width="80">Borrar</th>}
             </tr>
           </thead>
@@ -154,17 +156,17 @@ const Ubicacion = () => {
                 <td>
                   <TextModificar
                     isUpdate={modificar}
-                    update={handleUpdate.bind(null, dato.id, "nameUbicacion")}
+                    update={handleUpdate.bind(null, dato.id, "numero")}
                   >
-                    {dato.name}
+                    {dato.numero}
                   </TextModificar>
                 </td>
                 <td>
                   <TextModificar
                     isUpdate={modificar}
-                    update={handleUpdate.bind(null, dato.id, "numberOfRooms")}
+                    update={handleUpdate.bind(null, dato.id, "numberOfPeople")}
                   >
-                    {dato.numberOfRooms}
+                    {dato.numberOfPeople}
                   </TextModificar>
                 </td>
                 {permisos ? null : (
@@ -203,20 +205,20 @@ const Ubicacion = () => {
                 >
                   <Form.Row>
                     <Form.Group as={Col}>
-                      <Form.Label>Nombre de la Ubicación</Form.Label>
+                      <Form.Label>Número del Cuarto</Form.Label>
                       <Form.Control
-                        type="text"
-                        placeholder="Enter el Nombre de la Ubicación"
-                        name="nameUbicacion"
+                        type="number"
+                        placeholder="Enter el numero del cuarto"
+                        name="numero"
                       />
                     </Form.Group>
 
                     <Form.Group as={Col}>
-                      <Form.Label>Número de Cuartos</Form.Label>
+                      <Form.Label>Número de Personas</Form.Label>
                       <Form.Control
                         type="number"
-                        placeholder="Entre el numero de Cuartos"
-                        name="numberOfRoom"
+                        placeholder="Entre el numero de Personas"
+                        name="numberOfPeople"
                       />
                     </Form.Group>
                   </Form.Row>
@@ -230,12 +232,17 @@ const Ubicacion = () => {
                 </Button>
               </ButtonGroup>
             )}
+            <ButtonGroup className="mr-2">
+              <Button variant="primary" onClick={props.show.bind(this, {})}>
+                <i className="icon-arrow-left4"> Retroceder</i>
+              </Button>
+            </ButtonGroup>
           </ButtonToolbar>
         </div>
       </>
     );
   } else {
-    return <Cuartos show={handleShowCuartos} data={showCuartos.data} />;
+    return <h1> Aquí </h1>;
   }
 };
-export default Ubicacion;
+export default Cuartos;

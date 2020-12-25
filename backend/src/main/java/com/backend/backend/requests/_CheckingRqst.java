@@ -19,4 +19,9 @@ public class _CheckingRqst {
         this.jwt = jwt;
     }
 
+    @Override
+    public String toString() {
+        return "{" + " jwt='" + getJwt() + "'" + "}";
+    }
+
 }

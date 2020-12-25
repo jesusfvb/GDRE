@@ -33,7 +33,7 @@ public class _User implements Serializable {
     private String password;
 
     @ManyToMany
-    Set<_Authority> authorities;
+    private Set<_Authority> authorities;
 
     public _User() {
     }
@@ -43,7 +43,7 @@ public class _User implements Serializable {
         this.identification = identification;
         this.userName = userName;
         this.password = password;
-        authorities = new HashSet<>();
+        this.authorities = new HashSet<>();
     }
 
     public _User(Integer id, String name, String identification, String userName, String password) {
@@ -105,7 +105,9 @@ public class _User implements Serializable {
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", name=" + name + ", userName=" + userName + ", password" + password + " ]";
+        return "{" + " id='" + getId() + "'" + ", name='" + getName() + "'" + ", identification='" + getIdentification()
+                + "'" + ", userName='" + getUserName() + "'" + ", password='" + getPassword() + "'" + ", authorities='"
+                + getAuthorities() + "'" + "}";
     }
 
 }

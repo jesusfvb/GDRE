@@ -8,11 +8,12 @@ import Marco from "../helpers/_Marco";
 import TextModificar from "../helpers/_TexModificar";
 import { validadorInput } from "../helpers/_Validaciones";
 import { Session } from "../App";
+import Personas from "./_Personas";
 
 //Se encarga de la gestión de los usuarios
 const Cuartos = (props) => {
   const url = "/ubicacion/cuartos";
-  const [showCuartos, setShowCuartos] = useState({ show: false, data: {} });
+  const [showPersonas, setShowPersonas] = useState({ show: false, data: {} });
   const [data, setData] = useState(props.data.rooms);
   const [filtro, setFiltro] = useState("");
   const session = useContext(Session);
@@ -22,10 +23,10 @@ const Cuartos = (props) => {
   const borrar = !session.authorities.some((a) => a === "ADMINISTRADOR");
   const modificar = session.authorities.some((a) => a === "ADMINISTRADOR");
 
-  //Modifica la variable global(showCuartos) para acceder a la interfaz de manejo de los cuartos
-  function handleShowCuartos(dato, e) {
+  //Modifica la variable global(showPersonas) para acceder a la interfaz de manejo de las personas
+  function handleShowPersonas(dato, e) {
     e.preventDefault();
-    setShowCuartos({ show: !showCuartos.show, data: dato });
+    setShowPersonas({ show: !showPersonas.show, data: dato });
   }
 
   //Realiza la opción de seleccionar todos
@@ -65,7 +66,7 @@ const Cuartos = (props) => {
     if (ids.length !== 0) {
       DELETE(url, {
         ids: ids,
-        idUbicacion: props.data.id,
+        id: props.data.id,
       })
         .then((dat) => {
           if (dat) {
@@ -114,7 +115,7 @@ const Cuartos = (props) => {
   let body = document.getElementsByTagName("body")[0];
   body.classList.remove("colorBodyError404");
   body.classList.add("colorBody");
-  if (!showCuartos.show) {
+  if (!showPersonas.show) {
     return (
       <>
         {/* Se le pasa la función  que controla el estado del filtro */}
@@ -172,7 +173,7 @@ const Cuartos = (props) => {
                 {permisos ? null : (
                   <td className="text-center">
                     <i
-                      onClick={handleShowCuartos.bind(this, dato)}
+                      onClick={handleShowPersonas.bind(this, dato)}
                       className="icon-list2 shadow-sm iconoPermiso"
                     ></i>
                   </td>
@@ -242,7 +243,7 @@ const Cuartos = (props) => {
       </>
     );
   } else {
-    return <h1> Aquí </h1>;
+    return <Personas show={handleShowPersonas} data={showPersonas.data} />;
   }
 };
 export default Cuartos;

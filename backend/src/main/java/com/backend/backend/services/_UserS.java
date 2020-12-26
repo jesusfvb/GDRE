@@ -12,6 +12,8 @@ public interface _UserS {
     // All options of User
     public _User getUserByUserName(String userName);
 
+    public _User getUserById(Integer id);
+
     public List<_User> newUser(String name, String identification, String userName, String password);
 
     public List<_User> listUser();

@@ -50,6 +50,11 @@ public class _UserSI implements _UserS {
     }
 
     @Override
+    public _User getUserById(Integer id) {
+        return repositoryUser.findById(id).get();
+    }
+
+    @Override
     public List<_User> newUser(String name, String identification, String userName, String password) {
         _Authority authority = repositoryAuthority.findById(0).get();
         _User user = new _User(name, identification, userName, passwordEncoder.encode(password));

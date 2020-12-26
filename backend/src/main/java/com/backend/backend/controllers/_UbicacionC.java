@@ -4,12 +4,16 @@ import java.util.List;
 
 import com.backend.backend.models._Cuarto;
 import com.backend.backend.models._Ubicacion;
-import com.backend.backend.requests._DeleteRooRqst;
+import com.backend.backend.models._User;
+import com.backend.backend.requests._AddUserByCuartoRqst;
+import com.backend.backend.requests._DeleteRqst;
 import com.backend.backend.requests._NewRoomRqst;
 import com.backend.backend.requests._NewUbicacionRqst;
 import com.backend.backend.requests._UpdateRqst;
 import com.backend.backend.services._UbicacionS;
 
+import org.apache.juli.logging.Log;
+import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,6 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/ubicacion")
 @CrossOrigin("*")
 public class _UbicacionC {
+
+    private Log loggin = LogFactory.getLog(getClass());
 
     @Autowired
     private _UbicacionS serviceUbicacion;
@@ -57,13 +63,25 @@ public class _UbicacionC {
     }
 
     @DeleteMapping("/cuartos")
-    private ResponseEntity<Boolean> deleteRoom(@RequestBody _DeleteRooRqst delete) {
-        serviceUbicacion.deleteRooms(delete.getIdUbicacion(), delete.getIds());
+    private ResponseEntity<Boolean> deleteRoom(@RequestBody _DeleteRqst delete) {
+        serviceUbicacion.deleteRooms(delete.getId(), delete.getIds());
         return ResponseEntity.ok(true);
     }
 
     @PutMapping("/cuartos")
     private ResponseEntity<_Cuarto> updateRoom(@RequestBody _UpdateRqst update) {
         return ResponseEntity.ok(serviceUbicacion.updateCuarto(update.getId(), update.getOpcion(), update.getValue()));
+    }
+
+    @PostMapping("/persona")
+    private ResponseEntity<_User> addPersona(@RequestBody _AddUserByCuartoRqst rqst) {
+        loggin.info(rqst.toString());
+        return ResponseEntity.ok(serviceUbicacion.addUserForCuarto(rqst.getIdCuarto(), rqst.getIdUser()));
+    }
+
+    @DeleteMapping("/persona")
+    private ResponseEntity<Boolean> deletePersona(@RequestBody _DeleteRqst delete) {
+        serviceUbicacion.deletePeople(delete.getId(), delete.getIds());
+        return ResponseEntity.ok(true);
     }
 }

@@ -7,6 +7,7 @@ import com.backend.backend.models._Cuarto;
 import com.backend.backend.models._CuartoI;
 import com.backend.backend.models._Ubicacion;
 import com.backend.backend.models._UbicacionI;
+import com.backend.backend.models._User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,9 @@ public class _UbicacionSI implements _UbicacionS {
 
     @Autowired
     private _CuartoI repositoryCuarto;
+
+    @Autowired
+    private _UserS serviceUser;
 
     @Override
     public List<_Ubicacion> listUbicacion() {
@@ -85,5 +89,23 @@ public class _UbicacionSI implements _UbicacionS {
         }
         repositoryCuarto.save(room);
         return room;
+    }
+
+    @Override
+    public _User addUserForCuarto(Integer idCuarto, Integer idUser) {
+        _Cuarto cuarto = repositoryCuarto.findById(idCuarto).get();
+        _User user = serviceUser.getUserById(idUser);
+        cuarto.getPeople().add(user);
+        repositoryCuarto.save(cuarto);
+        return user;
+    }
+
+    @Override
+    public void deletePeople(Integer idCuarto, Integer[] idPeople) {
+        _Cuarto cuarto = repositoryCuarto.findById(idCuarto).get();
+        for (Integer id : idPeople) {
+            cuarto.getPeople().removeIf(p -> p.getId() == id);
+        }
+        repositoryCuarto.save(cuarto);
     }
 }

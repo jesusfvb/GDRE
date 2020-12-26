@@ -186,7 +186,24 @@ const App = () => {
             ) ? null : (
               <Route exact path="/usuarios" component={Users} />
             )}
-            <Route exact path="/ubicacion" component={Ubicacion} />
+            {!session.authorities.some(
+              (a) =>
+                a === "ADMINISTRADOR" ||
+                a === "GESTION-UBICACION-CUARTOS-PERSONAS" ||
+                a === "GESTION-UBICACION" ||
+                a === "AÑADIR-UBICACION" ||
+                a === "MODIFICAR-UBICACION" ||
+                a === "BORRAR-UBICACION" ||
+                a === "GESTION-CUARTO" ||
+                a === "AÑADIR-CUARTO" ||
+                a === "MODIFICAR-CUARTO" ||
+                a === "BORRAR-CUARTO" ||
+                a === "GESTION-PERSONAS" ||
+                a === "AÑADIR-PERSONAS" ||
+                a === "BORRAR-PERSONAS"
+            ) ? null : (
+              <Route exact path="/ubicacion" component={Ubicacion} />
+            )}
             <Route exact component={Error404} />
           </Switch>
         </Session.Provider>

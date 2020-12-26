@@ -97,10 +97,12 @@ public class _UserSI implements _UserS {
     // Método de inicio generar que crea los permisos y el user admin
     @Override
     public void createAuthorityAndUserAdmin() {
-        if (repositoryAuthority.count() != 7)
+        // Permisos
+        if (repositoryAuthority.count() != 19)
             repositoryAuthority
                     .save(new _Authority(0, "USER", "Permiso que se le añade a todos los Usuarios al Crearlos"));
         repositoryAuthority.save(new _Authority(1, "ADMINISTRADOR", "Permite controlar la aplicación en su totalidad"));
+        // Usuarios
         repositoryAuthority
                 .save(new _Authority(2, "GESTION-USUARIOS", "Permite gestionar a los usuarios en su totalidad"));
         repositoryAuthority.save(new _Authority(3, "MODIFICAR-USUARIOS", "Permite solamente modificar los usuarios"));
@@ -108,6 +110,25 @@ public class _UserSI implements _UserS {
         repositoryAuthority.save(new _Authority(5, "AÑADIR-USUARIOS", "Permite solamente añadir usuarios"));
         repositoryAuthority.save(new _Authority(6, "DAR-PERMISO-USUARIOS",
                 "Permite solamente dar y quitar los permisos a los usuarios"));
+        // Ubicacion
+        repositoryAuthority.save(new _Authority(7, "GESTION-UBICACION-CUARTOS-PERSONAS",
+                "Permite gestionar las Ubicaciones,los Cuartos y las Personas en su totalidad"));
+        repositoryAuthority
+                .save(new _Authority(8, "GESTION-UBICACION", "Permite gestionar las Ubicaciones en su totalidad"));
+        repositoryAuthority.save(new _Authority(9, "AÑADIR-UBICACION", "Permite añadir las Ubicaciones"));
+        repositoryAuthority.save(new _Authority(10, "MODIFICAR-UBICACION", "Permite modificar las Ubicaciones"));
+        repositoryAuthority.save(new _Authority(11, "BORRAR-UBICACION", "Permite borrar las Ubicaciones"));
+        repositoryAuthority.save(new _Authority(12, "GESTION-CUARTO", "Permite gestionar los Cuartos en su totalidad"));
+        repositoryAuthority.save(new _Authority(13, "AÑADIR-CUARTO", "Permite añadir los Cuartos"));
+        repositoryAuthority.save(new _Authority(14, "MODIFICAR-CUARTO", "Permite modificar los Cuartos"));
+        repositoryAuthority.save(new _Authority(15, "BORRAR-CUARTO", "Permite borrar los Cuartos"));
+        repositoryAuthority.save(new _Authority(16, "GESTION-PERSONAS",
+                "Permite gestionar las Personas de los Cuartos en su totalidad"));
+        repositoryAuthority.save(new _Authority(17, "AÑADIR-PERSONAS", "Permite añadir las Personas de los Cuartos"));
+        repositoryAuthority
+                .save(new _Authority(18, "BORRAR-PERSONAS", "Permite modificar las Personas de los Cuartos"));
+
+        // Add user Administrador
         if (!repositoryUser.existsById(1)) {
             _User admin = new _User(0, "Administrador", "Administrador", "admin", passwordEncoder.encode("1234"));
             admin.getAuthorities().add(repositoryAuthority.findById(0).get());

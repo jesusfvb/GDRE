@@ -8,15 +8,27 @@ import Marco from "../helpers/_Marco";
 import { Session } from "../App";
 import InputSugerencias from "../helpers/_InputSugerencias";
 
-//Se encarga de la gestión de los usuarios
+//Se encarga de la gestión de las personas de los cuartos
 const Personas = (props) => {
   const url = "/ubicacion/persona";
   const [data, setData] = useState(props.data.people);
   const [filtro, setFiltro] = useState("");
   const session = useContext(Session);
-  //Contantes con los acceso a los recursos de gestion de usuario
-  const annadir = !session.authorities.some((a) => a === "ADMINISTRADOR");
-  const borrar = !session.authorities.some((a) => a === "ADMINISTRADOR");
+  //Contantes con los acceso a los recursos de gestion de las personas de los cuartos
+  const annadir = !session.authorities.some(
+    (a) =>
+      a === "ADMINISTRADOR" ||
+      a === "GESTION-UBICACION-CUARTOS-PERSONAS" ||
+      a === "GESTION-PERSONAS" ||
+      a === "AÑADIR-PERSONAS"
+  );
+  const borrar = !session.authorities.some(
+    (a) =>
+      a === "ADMINISTRADOR" ||
+      a === "GESTION-UBICACION-CUARTOS-PERSONAS" ||
+      a === "GESTION-PERSONAS" ||
+      a === "BORRAR-PERSONAS"
+  );
 
   //Realiza la opción de seleccionar todos
   function handleSelect(e) {

@@ -10,29 +10,50 @@ import { validadorInput } from "../helpers/_Validaciones";
 import Cuartos from "./_Cuartos";
 import { Session } from "../App";
 
-//Se encarga de la gestión de los usuarios
+//Se encarga de la gestión de las ubicaciones
 const Ubicacion = () => {
   const url = "/ubicacion";
-  // const [showCuartos, setShowCuartos] = useState({ show: false, data: {} });
   const [showCuartos, setShowCuartos] = useState({
-    // show: true,
-    // data: {
-    //   id: 3,
-    //   name: "11",
-    //   number_of_rooms: 22,
-    //   rooms: [],
-    // },
     show: false,
     data: {},
   });
   const [data, setData] = useState([]);
   const [filtro, setFiltro] = useState("");
   const session = useContext(Session);
-  //Contantes con los acceso a los recursos de gestion de usuario
-  const permisos = !session.authorities.some((a) => a === "ADMINISTRADOR");
-  const annadir = !session.authorities.some((a) => a === "ADMINISTRADOR");
-  const borrar = !session.authorities.some((a) => a === "ADMINISTRADOR");
-  const modificar = session.authorities.some((a) => a === "ADMINISTRADOR");
+  //Contantes con los acceso a los recursos de gestion de Ubicacion
+  const cuartos = !session.authorities.some(
+    (a) =>
+      a === "ADMINISTRADOR" ||
+      a === "GESTION-UBICACION-CUARTOS-PERSONAS" ||
+      a === "GESTION-CUARTO" ||
+      a === "AÑADIR-CUARTO" ||
+      a === "MODIFICAR-CUARTO" ||
+      a === "BORRAR-CUARTO" ||
+      a === "GESTION-PERSONAS" ||
+      a === "AÑADIR-PERSONAS" ||
+      a === "BORRAR-PERSONAS"
+  );
+  const annadir = !session.authorities.some(
+    (a) =>
+      a === "ADMINISTRADOR" ||
+      a === "GESTION-UBICACION-CUARTOS-PERSONAS" ||
+      a === "GESTION-UBICACION" ||
+      a === "AÑADIR-UBICACION"
+  );
+  const borrar = !session.authorities.some(
+    (a) =>
+      a === "ADMINISTRADOR" ||
+      a === "GESTION-UBICACION-CUARTOS-PERSONAS" ||
+      a === "GESTION-UBICACION" ||
+      a === "BORRAR-UBICACION"
+  );
+  const modificar = session.authorities.some(
+    (a) =>
+      a === "ADMINISTRADOR" ||
+      a === "GESTION-UBICACION-CUARTOS-PERSONAS" ||
+      a === "GESTION-UBICACION" ||
+      a === "MODIFICAR-UBICACION"
+  );
 
   //Carga los datos del backend y los coloca en una variable global(data)
   useEffect(() => {
@@ -132,7 +153,7 @@ const Ubicacion = () => {
               )}
               <th>Nombre</th>
               <th>Numero de Cuartos</th>
-              {permisos ? null : <th width="100">Cuartos</th>}
+              {cuartos ? null : <th width="100">Cuartos</th>}
               {borrar ? null : <th width="80">Borrar</th>}
             </tr>
           </thead>
@@ -167,7 +188,7 @@ const Ubicacion = () => {
                     {dato.numberOfRooms}
                   </TextModificar>
                 </td>
-                {permisos ? null : (
+                {cuartos ? null : (
                   <td className="text-center">
                     <i
                       onClick={handleShowCuartos.bind(this, dato)}

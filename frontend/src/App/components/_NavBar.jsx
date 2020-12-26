@@ -29,9 +29,26 @@ const NavBar = () => {
                     <Nav.Link as={NavLink} to="/guardia">
                       Guardia
                     </Nav.Link>
-                    <Nav.Link as={NavLink} to="/ubicacion">
-                      Ubicación
-                    </Nav.Link>
+                    {!session.authorities.some(
+                      (a) =>
+                        a === "ADMINISTRADOR" ||
+                        a === "GESTION-UBICACION-CUARTOS-PERSONAS" ||
+                        a === "GESTION-UBICACION" ||
+                        a === "AÑADIR-UBICACION" ||
+                        a === "MODIFICAR-UBICACION" ||
+                        a === "BORRAR-UBICACION" ||
+                        a === "GESTION-CUARTO" ||
+                        a === "AÑADIR-CUARTO" ||
+                        a === "MODIFICAR-CUARTO" ||
+                        a === "BORRAR-CUARTO" ||
+                        a === "GESTION-PERSONAS" ||
+                        a === "AÑADIR-PERSONAS" ||
+                        a === "BORRAR-PERSONAS"
+                    ) ? null : (
+                      <Nav.Link as={NavLink} to="/ubicacion">
+                        Ubicación
+                      </Nav.Link>
+                    )}
                     {!session.authorities.some(
                       (a) =>
                         a === "ADMINISTRADOR" ||

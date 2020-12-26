@@ -10,7 +10,7 @@ import { validadorInput } from "../helpers/_Validaciones";
 import { Session } from "../App";
 import Personas from "./_Personas";
 
-//Se encarga de la gestión de los usuarios
+//Se encarga de la gestión de los cuartos
 const Cuartos = (props) => {
   const url = "/ubicacion/cuartos";
   const [showPersonas, setShowPersonas] = useState({ show: false, data: {} });
@@ -18,10 +18,35 @@ const Cuartos = (props) => {
   const [filtro, setFiltro] = useState("");
   const session = useContext(Session);
   //Contantes con los acceso a los recursos de gestion de usuario
-  const permisos = !session.authorities.some((a) => a === "ADMINISTRADOR");
-  const annadir = !session.authorities.some((a) => a === "ADMINISTRADOR");
-  const borrar = !session.authorities.some((a) => a === "ADMINISTRADOR");
-  const modificar = session.authorities.some((a) => a === "ADMINISTRADOR");
+  const personas = !session.authorities.some(
+    (a) =>
+      a === "ADMINISTRADOR" ||
+      a === "GESTION-UBICACION-CUARTOS-PERSONAS" ||
+      a === "GESTION-PERSONAS" ||
+      a === "AÑADIR-PERSONAS" ||
+      a === "BORRAR-PERSONAS"
+  );
+  const annadir = !session.authorities.some(
+    (a) =>
+      a === "ADMINISTRADOR" ||
+      a === "GESTION-UBICACION-CUARTOS-PERSONAS" ||
+      a === "GESTION-CUARTO" ||
+      a === "AÑADIR-CUARTO"
+  );
+  const borrar = !session.authorities.some(
+    (a) =>
+      a === "ADMINISTRADOR" ||
+      a === "GESTION-UBICACION-CUARTOS-PERSONAS" ||
+      a === "GESTION-CUARTO" ||
+      a === "BORRAR-CUARTO"
+  );
+  const modificar = session.authorities.some(
+    (a) =>
+      a === "ADMINISTRADOR" ||
+      a === "GESTION-UBICACION-CUARTOS-PERSONAS" ||
+      a === "GESTION-CUARTO" ||
+      a === "MODIFICAR-CUARTO"
+  );
 
   //Modifica la variable global(showPersonas) para acceder a la interfaz de manejo de las personas
   function handleShowPersonas(dato, e) {
@@ -135,7 +160,7 @@ const Cuartos = (props) => {
               )}
               <th>Número</th>
               <th>Número de Personas</th>
-              {permisos ? null : <th width="100">Personas</th>}
+              {personas ? null : <th width="100">Personas</th>}
               {borrar ? null : <th width="80">Borrar</th>}
             </tr>
           </thead>
@@ -170,7 +195,7 @@ const Cuartos = (props) => {
                     {dato.numberOfPeople}
                   </TextModificar>
                 </td>
-                {permisos ? null : (
+                {personas ? null : (
                   <td className="text-center">
                     <i
                       onClick={handleShowPersonas.bind(this, dato)}

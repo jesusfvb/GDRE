@@ -12,8 +12,6 @@ import com.backend.backend.requests._NewUbicacionRqst;
 import com.backend.backend.requests._UpdateRqst;
 import com.backend.backend.services._UbicacionS;
 
-import org.apache.juli.logging.Log;
-import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,8 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/ubicacion")
 @CrossOrigin("*")
 public class _UbicacionC {
-
-    private Log loggin = LogFactory.getLog(getClass());
 
     @Autowired
     private _UbicacionS serviceUbicacion;
@@ -75,7 +71,6 @@ public class _UbicacionC {
 
     @PostMapping("/persona")
     private ResponseEntity<_User> addPersona(@RequestBody _AddUserByCuartoRqst rqst) {
-        loggin.info(rqst.toString());
         return ResponseEntity.ok(serviceUbicacion.addUserForCuarto(rqst.getIdCuarto(), rqst.getIdUser()));
     }
 

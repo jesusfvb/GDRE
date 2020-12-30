@@ -59,6 +59,11 @@ public class _UbicacionSI implements _UbicacionS {
     }
 
     @Override
+    public _Ubicacion getUbicacionForIdPersona(Integer id) {
+        return repositoryUbicacion.findByPeopleId(id);
+    }
+
+    @Override
     public _Cuarto newCuarto(Integer numero, Integer numberOfPeople, Integer idUbicacion) {
         _Cuarto cuarto = repositoryCuarto.save(new _Cuarto(numero, numberOfPeople));
         _Ubicacion ubicacion = repositoryUbicacion.findById(idUbicacion).get();

@@ -3,7 +3,10 @@ package com.backend.backend.controllers;
 import java.util.List;
 
 import com.backend.backend.models._Cuarteleria;
+import com.backend.backend.models._Incidencias;
+import com.backend.backend.requests._DeleteRqst;
 import com.backend.backend.requests._NewCuarteleriaRqst;
+import com.backend.backend.requests._NewIncidenciaRqst;
 import com.backend.backend.requests._UpdateRqst;
 import com.backend.backend.services._CuarteleriaS;
 
@@ -44,6 +47,17 @@ public class _CuarteleriaC {
     @DeleteMapping
     private ResponseEntity<Boolean> delete(@RequestBody Integer[] ids) {
         serviceGuardia.deleteCuarteleria(ids);
+        return ResponseEntity.ok(true);
+    }
+
+    @PostMapping("/incidencia")
+    private ResponseEntity<_Incidencias> addIncidencia(@RequestBody _NewIncidenciaRqst rqst) {
+        return ResponseEntity.ok(serviceGuardia.addIncidencia(rqst.getId(), rqst.getIncidencia()));
+    }
+
+    @DeleteMapping("/incidencia")
+    private ResponseEntity<Boolean> deleteIncidencia(@RequestBody _DeleteRqst rqst) {
+        serviceGuardia.deleteIncidencias(rqst.getIds(), rqst.getId());
         return ResponseEntity.ok(true);
     }
 }

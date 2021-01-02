@@ -8,8 +8,8 @@ import Marco from "../helpers/_Marco";
 import TextModificar from "../helpers/_TexModificar";
 import { validadorInput } from "../helpers/_Validaciones";
 import { Session } from "../App";
-import Cuartos from "./_Cuartos";
 import InputSugerencias from "../helpers/_InputSugerencias";
+import Incidencias from "./_Incidencias";
 
 //Se encarga de la gestión de la Cuarteleria
 const Cuarteleria = () => {
@@ -124,7 +124,7 @@ const Cuarteleria = () => {
   let body = document.getElementsByTagName("body")[0];
   body.classList.remove("colorBodyError404");
   body.classList.add("colorBody");
-  if (!showCuartos.show) {
+  if (!showIncidencias.show) {
     return (
       <>
         {/* Se le pasa la función  que controla el estado del filtro */}
@@ -243,7 +243,9 @@ const Cuarteleria = () => {
       </>
     );
   } else {
-    return <Cuartos show={handleShowIncidencias} data={showIncidencias.data} />;
+    return (
+      <Incidencias show={handleShowIncidencias} data={showIncidencias.data} />
+    );
   }
 };
 export default Cuarteleria;

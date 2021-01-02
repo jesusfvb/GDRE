@@ -34,6 +34,9 @@ export const validadorInputs = (inputs) => {
       case "evaluacion":
         valido = evaluacion(i.value);
         break;
+      case "incidencia":
+        valido = incidencia(i.value);
+        break;
       default:
         break;
     }
@@ -97,6 +100,9 @@ export const validadorInput = (input, option) => {
       break;
     case "evaluacion":
       valido = evaluacion(input.value);
+      break;
+    case "incidencia":
+      valido = incidencia(input.value);
       break;
     default:
       break;
@@ -165,4 +171,8 @@ function evaluacion(value) {
     value !== null &&
     (value === "Bien" || value === "Regular" || value === "Mal")
   );
+}
+
+function incidencia() {
+  return true;
 }

@@ -3,6 +3,7 @@ package com.backend.backend.services;
 import java.util.List;
 
 import com.backend.backend.models._Cuarteleria;
+import com.backend.backend.models._Incidencias;
 
 import org.springframework.stereotype.Service;
 
@@ -16,4 +17,9 @@ public interface _CuarteleriaS {
     public void deleteCuarteleria(Integer[] ids);
 
     public _Cuarteleria updateCuarteleria(Integer id, String opcion, Object value);
+
+    public _Incidencias addIncidencia(Integer idCuarteleria, String incidencia);
+
+    public void deleteIncidencias(Integer[] ids, Integer id);
+
 }

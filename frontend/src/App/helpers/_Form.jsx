@@ -21,7 +21,9 @@ const Formulario = (props) => {
   //Permite la validación de los inputs y no enviá el formulario si estos no son validos
   function handleSubmit(e) {
     e.preventDefault();
-    let inputs = Array.from(e.target).filter((i) => i.tagName === "INPUT");
+    let inputs = Array.from(e.target).filter(
+      (i) => i.tagName === "INPUT" || i.tagName === "TEXTAREA"
+    );
     if (validadorInputs(inputs)) {
       props.onSubmit(inputs);
       handleClose();

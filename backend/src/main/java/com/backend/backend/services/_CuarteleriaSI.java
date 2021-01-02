@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.backend.backend.models._Cuarteleria;
 import com.backend.backend.models._CuarteleriaI;
+import com.backend.backend.models._Incidencias;
+import com.backend.backend.models._IncidenciasI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ public class _CuarteleriaSI implements _CuarteleriaS {
 
     @Autowired
     private _CuarteleriaI repositoryCuarteleria;
+
+    @Autowired
+    private _IncidenciasI repositoryIncidencia;
 
     @Autowired
     private _UbicacionS serviceUbicacion;
@@ -54,6 +59,25 @@ public class _CuarteleriaSI implements _CuarteleriaS {
         }
         repositoryCuarteleria.save(cuarteleria);
         return cuarteleria;
+    }
+
+    @Override
+    public _Incidencias addIncidencia(Integer idCuarteleria, String incidencia) {
+        _Incidencias incide = repositoryIncidencia.save(new _Incidencias(incidencia));
+        _Cuarteleria cuarteleria = repositoryCuarteleria.findById(idCuarteleria).get();
+        cuarteleria.getIncidencias().add(incide);
+        repositoryCuarteleria.save(cuarteleria);
+        return incide;
+    }
+
+    @Override
+    public void deleteIncidencias(Integer[] ids, Integer id) {
+        for (Integer i : ids) {
+            _Cuarteleria cuarteleria = repositoryCuarteleria.findById(id).get();
+            cuarteleria.getIncidencias().removeIf(incidencia -> incidencia.getId() == i);
+            repositoryCuarteleria.save(cuarteleria);
+            repositoryIncidencia.deleteById(i);
+        }
     }
 
 }

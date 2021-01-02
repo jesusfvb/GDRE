@@ -23,6 +23,12 @@ public class _Incidencias implements Serializable {
     public _Incidencias() {
     }
 
+
+    public _Incidencias(String texto) {
+        this.texto = texto;
+    }
+
+
     public Integer getId() {
         return this.id;
     }

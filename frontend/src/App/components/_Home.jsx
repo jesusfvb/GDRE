@@ -28,24 +28,38 @@ const Home = () => {
               <Session.Consumer>
                 {(session) => (
                   <Row>
-                    <Col
-                      className="mt-4 mb-4"
-                      xl="3"
-                      lg="4"
-                      md="6"
-                      sm="6"
-                      xs="10"
-                    >
-                      <Card style={{ width: "18rem" }} className="shadow">
-                        <Card.Img variant="top" src={cuarteleria} />
-                        <Card.Body className="text-center">
-                          <Card.Title>Cuartelería</Card.Title>
-                          <Button as={Link} to="/cuarteleria" variant="primary">
-                            Acceder
-                          </Button>
-                        </Card.Body>
-                      </Card>
-                    </Col>
+                    {!session.authorities.some(
+                      (a) =>
+                        a === "ADMINISTRADOR" ||
+                        a === "GESTION-CUARTELERIA" ||
+                        a === "AÑADIR-CUARTELERIA" ||
+                        a === "MODIFICAR-CUARTELERIA" ||
+                        a === "BORRAR-CUARTELERIA" ||
+                        a === "GESTION-INCIDENCIA"
+                    ) ? null : (
+                      <Col
+                        className="mt-4 mb-4"
+                        xl="3"
+                        lg="4"
+                        md="6"
+                        sm="6"
+                        xs="10"
+                      >
+                        <Card style={{ width: "18rem" }} className="shadow">
+                          <Card.Img variant="top" src={cuarteleria} />
+                          <Card.Body className="text-center">
+                            <Card.Title>Cuartelería</Card.Title>
+                            <Button
+                              as={Link}
+                              to="/cuarteleria"
+                              variant="primary"
+                            >
+                              Acceder
+                            </Button>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    )}
                     <Col
                       className="mt-4 mb-4"
                       xl="3"

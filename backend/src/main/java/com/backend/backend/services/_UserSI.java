@@ -98,7 +98,7 @@ public class _UserSI implements _UserS {
     @Override
     public void createAuthorityAndUserAdmin() {
         // Permisos
-        if (repositoryAuthority.count() != 19)
+        if (repositoryAuthority.count() != 24)
             repositoryAuthority
                     .save(new _Authority(0, "USER", "Permiso que se le añade a todos los Usuarios al Crearlos"));
         repositoryAuthority.save(new _Authority(1, "ADMINISTRADOR", "Permite controlar la aplicación en su totalidad"));
@@ -127,7 +127,12 @@ public class _UserSI implements _UserS {
         repositoryAuthority.save(new _Authority(17, "AÑADIR-PERSONAS", "Permite añadir las Personas de los Cuartos"));
         repositoryAuthority
                 .save(new _Authority(18, "BORRAR-PERSONAS", "Permite modificar las Personas de los Cuartos"));
-
+        repositoryAuthority
+                .save(new _Authority(19, "GESTION-CUARTELERIA", "Permite gestionar las Cuartelarías en su totalidad"));
+        repositoryAuthority.save(new _Authority(20, "AÑADIR-CUARTELERIA", "Permite añadir las Cuartelarías"));
+        repositoryAuthority.save(new _Authority(21, "MODIFICAR-CUARTELERIA", "Permite modificar las Cuartelarías"));
+        repositoryAuthority.save(new _Authority(22, "BORRAR-CUARTELERIA", "Permite borrar las Cuartelarías"));
+        repositoryAuthority.save(new _Authority(23, "GESTION-INCIDENCIA", "Permite gestionar las incidencias"));
         // Add user Administrador
         if (!repositoryUser.existsById(1)) {
             _User admin = new _User(0, "Administrador", "Administrador", "admin", passwordEncoder.encode("1234"));

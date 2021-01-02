@@ -23,9 +23,20 @@ const NavBar = () => {
                     <Nav.Link as={NavLink} to="/home">
                       Home
                     </Nav.Link>
-                    <Nav.Link as={NavLink} to="/cuarteleria">
-                      Cuartelería
-                    </Nav.Link>
+                    {!session.authorities.some(
+                      (a) =>
+                        a === "ADMINISTRADOR" ||
+                        a === "GESTION-CUARTELERIA" ||
+                        a === "AÑADIR-CUARTELERIA" ||
+                        a === "MODIFICAR-CUARTELERIA" ||
+                        a === "BORRAR-CUARTELERIA" ||
+                        a === "GESTION-INCIDENCIA"
+                    ) ? null : (
+                      <Nav.Link as={NavLink} to="/cuarteleria">
+                        Cuartelería
+                      </Nav.Link>
+                    )}
+
                     <Nav.Link as={NavLink} to="/guardia">
                       Guardia
                     </Nav.Link>

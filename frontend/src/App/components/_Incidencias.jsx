@@ -1,21 +1,16 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import { Button, ButtonGroup, ButtonToolbar, Col, Form } from "react-bootstrap";
 
 import { POST, DELETE } from "../helpers/_Axion";
 import Formulario from "../helpers/_Form";
 import Marco from "../helpers/_Marco";
-import { Session } from "../App";
 
 //Se encarga de la gestión de las Incidencias
 const Incidencias = (props) => {
   const url = "/cuarteleria/incidencia";
   const [data, setData] = useState(props.data.incidencias);
   const [filtro, setFiltro] = useState("");
-  const session = useContext(Session);
-  //Contantes con los acceso a los recursos de gestion de las personas de los cuartos
-  const annadir = !session.authorities.some((a) => a === "ADMINISTRADOR");
-  const borrar = !session.authorities.some((a) => a === "ADMINISTRADOR");
 
   //Realiza la opción de seleccionar todos
   function handleSelect(e) {
@@ -95,42 +90,37 @@ const Incidencias = (props) => {
       >
         <thead>
           <tr>
-            {borrar ? null : (
-              <th width="20" className="text-center">
-                <i
-                  onClick={handleSelect}
-                  className="icon-android-checkbox-outline iconoChecked shadow-sm"
-                ></i>
-              </th>
-            )}
+            <th width="20" className="text-center">
+              <i
+                onClick={handleSelect}
+                className="icon-android-checkbox-outline iconoChecked shadow-sm"
+              ></i>
+            </th>
             <th>Incidencia</th>
-            {borrar ? null : <th width="80">Borrar</th>}
+            <th width="80">Borrar</th>
           </tr>
         </thead>
         <tbody>
           {/* Se filtra antes de mostrar */}
           {filtros().map((dato) => (
             <tr key={dato.id}>
-              {borrar ? null : (
-                <td>
-                  <Form.Check
-                    type="checkbox"
-                    label=""
-                    className="ml-2"
-                    name="checkTable"
-                    id={dato.id}
-                  />
-                </td>
-              )}
+              <td>
+                <Form.Check
+                  type="checkbox"
+                  label=""
+                  className="ml-2"
+                  name="checkTable"
+                  id={dato.id}
+                />
+              </td>
               <td>{dato.texto}</td>
-              {borrar ? null : (
-                <td className="text-center">
-                  <i
-                    className="icon-bin shadow-sm iconoBorrar"
-                    onClick={handleDelete.bind(this, [dato.id])}
-                  ></i>
-                </td>
-              )}
+
+              <td className="text-center">
+                <i
+                  className="icon-bin shadow-sm iconoBorrar"
+                  onClick={handleDelete.bind(this, [dato.id])}
+                ></i>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -138,33 +128,29 @@ const Incidencias = (props) => {
       {/* Botones flotantes  */}
       <div className="botonesTabla">
         <ButtonToolbar className="mb-5">
-          {annadir ? null : (
-            <ButtonGroup className="mr-2">
-              <Formulario
-                onSubmit={handleSubmit}
-                header="Añadir Incidencia"
-                button={(cb) => (
-                  <Button variant="primary" onClick={cb}>
-                    <i className="icon-plus4"></i>
-                  </Button>
-                )}
-              >
-                <Form.Row>
-                  <Form.Group as={Col}>
-                    <Form.Label>Incidencia</Form.Label>
-                    <Form.Control as="textarea" rows="3" name="incidencia" />
-                  </Form.Group>
-                </Form.Row>
-              </Formulario>
-            </ButtonGroup>
-          )}
-          {borrar ? null : (
-            <ButtonGroup className="mr-2">
-              <Button variant="danger" onClick={handleDelete.bind(this, [])}>
-                <i className="icon-bin"></i>
-              </Button>
-            </ButtonGroup>
-          )}
+          <ButtonGroup className="mr-2">
+            <Formulario
+              onSubmit={handleSubmit}
+              header="Añadir Incidencia"
+              button={(cb) => (
+                <Button variant="primary" onClick={cb}>
+                  <i className="icon-plus4"></i>
+                </Button>
+              )}
+            >
+              <Form.Row>
+                <Form.Group as={Col}>
+                  <Form.Label>Incidencia</Form.Label>
+                  <Form.Control as="textarea" rows="3" name="incidencia" />
+                </Form.Group>
+              </Form.Row>
+            </Formulario>
+          </ButtonGroup>
+          <ButtonGroup className="mr-2">
+            <Button variant="danger" onClick={handleDelete.bind(this, [])}>
+              <i className="icon-bin"></i>
+            </Button>
+          </ButtonGroup>
           <ButtonGroup className="mr-2">
             <Button variant="primary" onClick={props.show.bind(this, {})}>
               <i className="icon-arrow-left4"> Retroceder</i>

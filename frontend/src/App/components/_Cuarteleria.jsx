@@ -22,10 +22,30 @@ const Cuarteleria = () => {
   const [filtro, setFiltro] = useState("");
   const session = useContext(Session);
   //Contantes con los acceso a los recursos de gestion de Cuarteleria
-  const cuartos = !session.authorities.some((a) => a === "ADMINISTRADOR");
-  const annadir = !session.authorities.some((a) => a === "ADMINISTRADOR");
-  const borrar = !session.authorities.some((a) => a === "ADMINISTRADOR");
-  const modificar = session.authorities.some((a) => a === "ADMINISTRADOR");
+  const incidencias = !session.authorities.some(
+    (a) =>
+      a === "ADMINISTRADOR" ||
+      a === "GESTION-CUARTELERIA" ||
+      a === "GESTION-INCIDENCIA"
+  );
+  const annadir = !session.authorities.some(
+    (a) =>
+      a === "ADMINISTRADOR" ||
+      a === "GESTION-CUARTELERIA" ||
+      a === "AÑADIR-CUARTELERIA"
+  );
+  const borrar = !session.authorities.some(
+    (a) =>
+      a === "ADMINISTRADOR" ||
+      a === "GESTION-CUARTELERIA" ||
+      a === "BORRAR-CUARTELERIA"
+  );
+  const modificar = session.authorities.some(
+    (a) =>
+      a === "ADMINISTRADOR" ||
+      a === "GESTION-CUARTELERIA" ||
+      a === "MODIFICAR-CUARTELERIA"
+  );
 
   //Carga los datos del backend y los coloca en una variable global(data)
   useEffect(() => {
@@ -45,7 +65,7 @@ const Cuarteleria = () => {
     checkBoxes.forEach((checkBox) => (checkBox.checked = true));
   }
 
-  //Modifica la variable global(showCuartos) para acceder a la interfaz de manejo de las Incidencias
+  //Modifica la variable global(showIncidencias) para acceder a la interfaz de manejo de las Incidencias
   function handleShowIncidencias(dato, e) {
     e.preventDefault();
     setShowIncidencias({ show: !showIncidencias.show, data: dato });
@@ -180,7 +200,7 @@ const Cuarteleria = () => {
                     {dato.evaluacion}
                   </TextModificar>
                 </td>
-                {cuartos ? null : (
+                {incidencias ? null : (
                   <td className="text-center">
                     <i
                       onClick={handleShowIncidencias.bind(this, dato)}

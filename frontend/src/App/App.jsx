@@ -205,7 +205,17 @@ const App = () => {
             ) ? null : (
               <Route exact path="/ubicacion" component={Ubicacion} />
             )}
-            <Route exact path="/cuarteleria" component={Cuarteleria} />
+            {!session.authorities.some(
+              (a) =>
+                a === "ADMINISTRADOR" ||
+                a === "GESTION-CUARTELERIA" ||
+                a === "AÑADIR-CUARTELERIA" ||
+                a === "MODIFICAR-CUARTELERIA" ||
+                a === "BORRAR-CUARTELERIA" ||
+                a === "GESTION-INCIDENCIA"
+            ) ? null : (
+              <Route exact path="/cuarteleria" component={Cuarteleria} />
+            )}
             <Route exact component={Error404} />
           </Switch>
         </Session.Provider>

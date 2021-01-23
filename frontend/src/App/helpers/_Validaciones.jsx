@@ -46,6 +46,9 @@ export const validadorInputs = (inputs) => {
       case "turno":
         valido = turno(i.value);
         break;
+      case "asistencia":
+        valido = asistencia(i.value);
+        break;
       default:
         break;
     }
@@ -121,6 +124,9 @@ export const validadorInput = (input, option) => {
       break;
     case "turno":
       valido = turno(input.value);
+      break;
+    case "asistencia":
+      valido = asistencia(input.value);
       break;
     default:
       break;
@@ -215,4 +221,7 @@ function turno(value) {
     default:
       break;
   }
+}
+function asistencia() {
+  return true;
 }

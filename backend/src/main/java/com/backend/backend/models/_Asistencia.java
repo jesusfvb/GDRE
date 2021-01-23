@@ -30,6 +30,12 @@ public class _Asistencia implements Serializable {
     public _Asistencia() {
     }
 
+    public _Asistencia(_User estudiante) {
+        this.evaluacion = "";
+        this.asistencia = "";
+        this.estudiante = estudiante;
+    }
+
     public Integer getId() {
         return this.id;
     }

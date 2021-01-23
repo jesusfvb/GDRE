@@ -36,10 +36,23 @@ const NavBar = () => {
                         Cuartelería
                       </Nav.Link>
                     )}
-
-                    <Nav.Link as={NavLink} to="/guardia">
-                      Guardia
-                    </Nav.Link>
+                    {!session.authorities.some(
+                      (a) =>
+                        a === "ADMINISTRADOR" ||
+                        a === "GESTION-GUARDIA-INTEGRANTES" ||
+                        a === "GESTION-GUARDIA" ||
+                        a === "AÑADIR-GUARDIA" ||
+                        a === "MODIFICAR-GUARDIA" ||
+                        a === "BORRAR-GUARDIA" ||
+                        a === "GESTION-INTEGRANTES" ||
+                        a === "AÑADIR-INTEGRANTES" ||
+                        a === "MODIFICAR-INTEGRANTES" ||
+                        a === "BORRAR-INTEGRANTES"
+                    ) ? null : (
+                      <Nav.Link as={NavLink} to="/guardia">
+                        Guardia
+                      </Nav.Link>
+                    )}
                     {!session.authorities.some(
                       (a) =>
                         a === "ADMINISTRADOR" ||

@@ -98,7 +98,7 @@ public class _UserSI implements _UserS {
     @Override
     public void createAuthorityAndUserAdmin() {
         // Permisos
-        if (repositoryAuthority.count() != 24)
+        if (repositoryAuthority.count() != 33)
             repositoryAuthority
                     .save(new _Authority(0, "USER", "Permiso que se le añade a todos los Usuarios al Crearlos"));
         repositoryAuthority.save(new _Authority(1, "ADMINISTRADOR", "Permite controlar la aplicación en su totalidad"));
@@ -133,6 +133,19 @@ public class _UserSI implements _UserS {
         repositoryAuthority.save(new _Authority(21, "MODIFICAR-CUARTELERIA", "Permite modificar las Cuartelarías"));
         repositoryAuthority.save(new _Authority(22, "BORRAR-CUARTELERIA", "Permite borrar las Cuartelarías"));
         repositoryAuthority.save(new _Authority(23, "GESTION-INCIDENCIA", "Permite gestionar las incidencias"));
+
+        repositoryAuthority.save(new _Authority(24, "GESTION-GUARDIA-INTEGRANTES",
+                "Permite gestionar las Guardias y sus Integrantes en su totalidad"));
+        repositoryAuthority
+                .save(new _Authority(25, "GESTION-GUARDIA", "Permite gestionar las Guardias en su totalidad"));
+        repositoryAuthority.save(new _Authority(26, "AÑADIR-GUARDIA", "Permite añadir las Guardias"));
+        repositoryAuthority.save(new _Authority(27, "MODIFICAR-GUARDIA", "Permite modificar las Guardias"));
+        repositoryAuthority.save(new _Authority(28, "BORRAR-GUARDIA", "Permite borrar las Guardias"));
+
+        repositoryAuthority.save(new _Authority(29, "GESTION-INTEGRANTES", "Permite gestionar los Integrantes"));
+        repositoryAuthority.save(new _Authority(30, "AÑADIR-INTEGRANTES", "Permite añadir los Integrantes"));
+        repositoryAuthority.save(new _Authority(31, "MODIFICAR-INTEGRANTES", "Permite modificar los Integrantes"));
+        repositoryAuthority.save(new _Authority(32, "BORRAR-INTEGRANTES", "Permite borrar los Integrantes"));
         // Add user Administrador
         if (!repositoryUser.existsById(1)) {
             _User admin = new _User(0, "Administrador", "Administrador", "admin", passwordEncoder.encode("1234"));

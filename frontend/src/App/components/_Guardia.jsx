@@ -9,12 +9,12 @@ import TextModificar from "../helpers/_TexModificar";
 import { validadorInput } from "../helpers/_Validaciones";
 import { Session } from "../App";
 import InputSugerencias from "../helpers/_InputSugerencias";
-import Incidencias from "./_Incidencias";
+import Integrantes from "./_Integrantes";
 
 //Se encarga de la gestión de la Guardia
 const Guardia = () => {
   const url = "/guardia";
-  const [showIncidencias, setShowIncidencias] = useState({
+  const [showIntegrantes, setShowIntegrantes] = useState({
     show: false,
     data: {},
   });
@@ -22,29 +22,35 @@ const Guardia = () => {
   const [filtro, setFiltro] = useState("");
   const session = useContext(Session);
   //Contantes con los acceso a los recursos de gestion de Cuarteleria
-  const incidencias = !session.authorities.some(
+  const integrantes = !session.authorities.some(
     (a) =>
       a === "ADMINISTRADOR" ||
-      a === "GESTION-CUARTELERIA" ||
-      a === "GESTION-INCIDENCIA"
+      a === "GESTION-GUARDIA-INTEGRANTES" ||
+      a === "GESTION-INTEGRANTES" ||
+      a === "AÑADIR-INTEGRANTES" ||
+      a === "MODIFICAR-INTEGRANTES" ||
+      a === "BORRAR-INTEGRANTES"
   );
   const annadir = !session.authorities.some(
     (a) =>
       a === "ADMINISTRADOR" ||
-      a === "GESTION-CUARTELERIA" ||
-      a === "AÑADIR-CUARTELERIA"
+      a === "GESTION-GUARDIA-INTEGRANTES" ||
+      a === "GESTION-GUARDIA" ||
+      a === "AÑADIR-GUARDIA"
   );
   const borrar = !session.authorities.some(
     (a) =>
       a === "ADMINISTRADOR" ||
-      a === "GESTION-CUARTELERIA" ||
-      a === "BORRAR-CUARTELERIA"
+      a === "GESTION-GUARDIA-INTEGRANTES" ||
+      a === "GESTION-GUARDIA" ||
+      a === "BORRAR-GUARDIA"
   );
   const modificar = session.authorities.some(
     (a) =>
       a === "ADMINISTRADOR" ||
-      a === "GESTION-CUARTELERIA" ||
-      a === "MODIFICAR-CUARTELERIA"
+      a === "GESTION-GUARDIA-INTEGRANTES" ||
+      a === "GESTION-GUARDIA" ||
+      a === "MODIFICAR-GUARDIA"
   );
 
   //Carga los datos del backend y los coloca en una variable global(data)
@@ -54,7 +60,7 @@ const Guardia = () => {
         setData(data);
       })
       .catch((error) => console.error(error));
-  }, []);
+  });
 
   //Realiza la opción de seleccionar todos
   function handleSelect(e) {
@@ -65,10 +71,10 @@ const Guardia = () => {
     checkBoxes.forEach((checkBox) => (checkBox.checked = true));
   }
 
-  //Modifica la variable global(showIncidencias) para acceder a la interfaz de manejo de las Incidencias
-  function handleShowIncidencias(dato, e) {
+  //Modifica la variable global(showIntegrantes) para acceder a la interfaz de manejo de las Integrantes
+  function handleShowIntegrantes(dato, e) {
     e.preventDefault();
-    setShowIncidencias({ show: !showIncidencias.show, data: dato });
+    setShowIntegrantes({ show: !showIntegrantes.show, data: dato });
   }
   //Función para añadir una nueva Ubicación
   function handleSubmit(inputs) {
@@ -148,7 +154,7 @@ const Guardia = () => {
   let body = document.getElementsByTagName("body")[0];
   body.classList.remove("colorBodyError404");
   body.classList.add("colorBody");
-  if (!showIncidencias.show) {
+  if (!showIntegrantes.show) {
     return (
       <>
         {/* Se le pasa la función  que controla el estado del filtro */}
@@ -211,10 +217,10 @@ const Guardia = () => {
                     {dato.fin}
                   </TextModificar>
                 </td>
-                {incidencias ? null : (
+                {integrantes ? null : (
                   <td className="text-center">
                     <i
-                      onClick={handleShowIncidencias.bind(this, dato)}
+                      onClick={handleShowIntegrantes.bind(this, dato)}
                       className="icon-list2 shadow-sm iconoPermiso"
                     ></i>
                   </td>
@@ -293,7 +299,7 @@ const Guardia = () => {
     );
   } else {
     return (
-      <Incidencias show={handleShowIncidencias} data={showIncidencias.data} />
+      <Integrantes show={handleShowIntegrantes} data={showIntegrantes.data} />
     );
   }
 };

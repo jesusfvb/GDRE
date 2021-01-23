@@ -1,35 +1,43 @@
 import React, { useContext, useState } from "react";
 
 import { Button, ButtonGroup, ButtonToolbar, Col, Form } from "react-bootstrap";
-
-import { POST, DELETE } from "../helpers/_Axion";
-import Formulario from "../helpers/_Form";
-import Marco from "../helpers/_Marco";
 import { Session } from "../App";
-import InputSugerencias from "../helpers/_InputSugerencias";
 
-//Se encarga de la gestión de las personas de los cuartos
-const Personas = (props) => {
-  const url = "/ubicacion/persona";
-  const [data, setData] = useState(props.data.people);
+import { POST, DELETE, PUT } from "../helpers/_Axion";
+import Formulario from "../helpers/_Form";
+import InputSugerencias from "../helpers/_InputSugerencias";
+import Marco from "../helpers/_Marco";
+import TextModificar from "../helpers/_TexModificar";
+import { validadorInput } from "../helpers/_Validaciones";
+
+//Se encarga de la gestión de los Integrantes
+const Integrantes = (props) => {
+  const url = "/guardia/integrantes";
+  const [data, setData] = useState(props.data.asistencias);
   const [filtro, setFiltro] = useState("");
   const session = useContext(Session);
-  //Contantes con los acceso a los recursos de gestion de las personas de los cuartos
+
   const annadir = !session.authorities.some(
     (a) =>
       a === "ADMINISTRADOR" ||
-      a === "GESTION-UBICACION-CUARTOS-PERSONAS" ||
-      a === "GESTION-PERSONAS" ||
-      a === "AÑADIR-PERSONAS"
+      a === "GESTION-GUARDIA-INTEGRANTES" ||
+      a === "GESTION-INTEGRANTES" ||
+      a === "AÑADIR-INTEGRANTES"
+  );
+  const modificar = !session.authorities.some(
+    (a) =>
+      a === "ADMINISTRADOR" ||
+      a === "GESTION-GUARDIA-INTEGRANTES" ||
+      a === "GESTION-INTEGRANTES" ||
+      a === "MODIFICAR-INTEGRANTES"
   );
   const borrar = !session.authorities.some(
     (a) =>
       a === "ADMINISTRADOR" ||
-      a === "GESTION-UBICACION-CUARTOS-PERSONAS" ||
-      a === "GESTION-PERSONAS" ||
-      a === "BORRAR-PERSONAS"
+      a === "GESTION-GUARDIA-INTEGRANTES" ||
+      a === "GESTION-INTEGRANTES" ||
+      a === "BORRAR-INTEGRANTES"
   );
-
   //Realiza la opción de seleccionar todos
   function handleSelect(e) {
     e.preventDefault();
@@ -41,9 +49,8 @@ const Personas = (props) => {
 
   //Función para añadir una nueva persona a un cuarto
   function handleSubmit(inputs) {
-    console.log(inputs);
-
     let dato0 = inputs[0].id;
+    console.log(inputs);
     POST(url, {
       id1: dato0,
       id0: props.data.id,
@@ -70,7 +77,7 @@ const Personas = (props) => {
         id: props.data.id,
       })
         .then((dat) => {
-          if (dat) {
+          if (dat === true) {
             ids.forEach((id) => {
               data.splice(
                 data.findIndex((d) => d.id === id),
@@ -90,10 +97,26 @@ const Personas = (props) => {
   function filtros() {
     let salida = data.filter(
       (d) =>
-        d.name.toString().includes(filtro) ||
-        d.identification.toString().includes(filtro)
+        d.estudiante.name.includes(filtro) ||
+        d.evaluacion.includes(filtro) ||
+        d.asistencia.includes(filtro)
     );
     return salida;
+  }
+  function handleUpdate(id, opcion, value, cb) {
+    if (validadorInput(value, opcion)) {
+      cb(false);
+      PUT(url, {
+        id: id,
+        opcion: opcion,
+        value: value.value,
+      })
+        .then((d) => {
+          data[data.findIndex((da) => (da.id = d.id))] = d;
+          setData([...data]);
+        })
+        .catch((error) => console.error(error));
+    }
   }
 
   let body = document.getElementsByTagName("body")[0];
@@ -104,48 +127,63 @@ const Personas = (props) => {
       {/* Se le pasa la función  que controla el estado del filtro */}
       <Marco
         filtro={setFiltro}
-        beforeTable={<h4>Cuarto: {props.data.numero}</h4>}
+        beforeTable={
+          <h4>
+            {/* Cuarteleria: {props.data.user.name} / {props.data.fecha} /
+            {props.data.ubicacion} */}
+          </h4>
+        }
       >
         <thead>
           <tr>
-            {borrar ? null : (
-              <th width="20" className="text-center">
-                <i
-                  onClick={handleSelect}
-                  className="icon-android-checkbox-outline iconoChecked shadow-sm"
-                ></i>
-              </th>
-            )}
+            <th width="20" className="text-center">
+              <i
+                onClick={handleSelect}
+                className="icon-android-checkbox-outline iconoChecked shadow-sm"
+              ></i>
+            </th>
             <th>Nombre</th>
-            <th>Identificación</th>
-            {borrar ? null : <th width="80">Borrar</th>}
+            <th>Evaluación</th>
+            <th>Asistencia</th>
+            <th width="80">Borrar</th>
           </tr>
         </thead>
         <tbody>
           {/* Se filtra antes de mostrar */}
           {filtros().map((dato) => (
             <tr key={dato.id}>
-              {borrar ? null : (
-                <td>
-                  <Form.Check
-                    type="checkbox"
-                    label=""
-                    className="ml-2"
-                    name="checkTable"
-                    id={dato.id}
-                  />
-                </td>
-              )}
-              <td>{dato.name}</td>
-              <td>{dato.identification}</td>
-              {borrar ? null : (
-                <td className="text-center">
-                  <i
-                    className="icon-bin shadow-sm iconoBorrar"
-                    onClick={handleDelete.bind(this, [dato.id])}
-                  ></i>
-                </td>
-              )}
+              <td>
+                <Form.Check
+                  type="checkbox"
+                  label=""
+                  className="ml-2"
+                  name="checkTable"
+                  id={dato.id}
+                />
+              </td>
+              <td>{dato.estudiante.name}</td>
+              <td>
+                <TextModificar
+                 isUpdate={modificar}
+                  update={handleUpdate.bind(null, dato.id, "evaluacion")}
+                >
+                  {dato.evaluacion}
+                </TextModificar>
+              </td>
+              <td>
+                <TextModificar
+                 isUpdate={modificar}
+                  update={handleUpdate.bind(null, dato.id, "asistencia")}
+                >
+                  {dato.asistencia}
+                </TextModificar>
+              </td>
+              <td className="text-center">
+                <i
+                  className="icon-bin shadow-sm iconoBorrar"
+                  onClick={handleDelete.bind(this, [dato.id])}
+                ></i>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -157,7 +195,7 @@ const Personas = (props) => {
             <ButtonGroup className="mr-2">
               <Formulario
                 onSubmit={handleSubmit}
-                header="Añadir Ubicación"
+                header="Añadir Integrante"
                 button={(cb) => (
                   <Button variant="primary" onClick={cb}>
                     <i className="icon-plus4"></i>
@@ -166,7 +204,7 @@ const Personas = (props) => {
               >
                 <Form.Row>
                   <Form.Group as={Col}>
-                    <Form.Label>Nombre</Form.Label>
+                    <Form.Label>Nombre del Estudiante</Form.Label>
                     <InputSugerencias />
                   </Form.Group>
                 </Form.Row>
@@ -190,4 +228,4 @@ const Personas = (props) => {
     </>
   );
 };
-export default Personas;
+export default Integrantes;

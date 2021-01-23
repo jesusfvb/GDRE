@@ -2,7 +2,10 @@ package com.backend.backend.controllers;
 
 import java.util.List;
 
+import com.backend.backend.models._Asistencia;
 import com.backend.backend.models._Guardia;
+import com.backend.backend.requests._DeleteRqst;
+import com.backend.backend.requests._IdsRqst;
 import com.backend.backend.requests._NewGuardiaRqst;
 import com.backend.backend.requests._UpdateRqst;
 import com.backend.backend.services._GuardiaS;
@@ -44,7 +47,24 @@ public class _GuardiaC {
 
     @DeleteMapping
     private ResponseEntity<Boolean> delete(@RequestBody Integer ids[]) {
+        serviceGuardia.deleteGuardia(ids);
         return ResponseEntity.ok(true);
+    }
+
+    @PostMapping("/integrantes")
+    private ResponseEntity<_Asistencia> addIntegrante(@RequestBody _IdsRqst rqst) {
+        return ResponseEntity.ok(serviceGuardia.addAsistencia(rqst.getId0(), rqst.getId1()));
+    }
+
+    @DeleteMapping("/integrantes")
+    private ResponseEntity<Boolean> deleteIntegrante(@RequestBody _DeleteRqst rqst) {
+        serviceGuardia.deleteAsistencia(rqst.getId(), rqst.getIds());
+        return ResponseEntity.ok(true);
+    }
+
+    @PutMapping("/integrantes")
+    private ResponseEntity<_Asistencia> updateIntegrante(@RequestBody _UpdateRqst rqst) {
+        return ResponseEntity.ok(serviceGuardia.updateAsistencia(rqst.getId(), rqst.getOpcion(), rqst.getValue()));
     }
 
 }

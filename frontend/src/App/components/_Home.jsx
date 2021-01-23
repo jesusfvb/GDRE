@@ -60,24 +60,38 @@ const Home = () => {
                         </Card>
                       </Col>
                     )}
-                    <Col
-                      className="mt-4 mb-4"
-                      xl="3"
-                      lg="4"
-                      md="6"
-                      sm="6"
-                      xs="10"
-                    >
-                      <Card style={{ width: "18rem" }} className="shadow">
-                        <Card.Img variant="top" src={guardia} />
-                        <Card.Body className="text-center">
-                          <Card.Title>Guardia</Card.Title>
-                          <Button as={Link} to="/guardia" variant="primary">
-                            Acceder
-                          </Button>
-                        </Card.Body>
-                      </Card>
-                    </Col>
+                    {!session.authorities.some(
+                      (a) =>
+                        a === "ADMINISTRADOR" ||
+                        a === "GESTION-GUARDIA-INTEGRANTES" ||
+                        a === "GESTION-GUARDIA" ||
+                        a === "AÑADIR-GUARDIA" ||
+                        a === "MODIFICAR-GUARDIA" ||
+                        a === "BORRAR-GUARDIA" ||
+                        a === "GESTION-INTEGRANTES" ||
+                        a === "AÑADIR-INTEGRANTES" ||
+                        a === "MODIFICAR-INTEGRANTES" ||
+                        a === "BORRAR-INTEGRANTES"
+                    ) ? null : (
+                      <Col
+                        className="mt-4 mb-4"
+                        xl="3"
+                        lg="4"
+                        md="6"
+                        sm="6"
+                        xs="10"
+                      >
+                        <Card style={{ width: "18rem" }} className="shadow">
+                          <Card.Img variant="top" src={guardia} />
+                          <Card.Body className="text-center">
+                            <Card.Title>Guardia</Card.Title>
+                            <Button as={Link} to="/guardia" variant="primary">
+                              Acceder
+                            </Button>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    )}
                     {!session.authorities.some(
                       (a) =>
                         a === "ADMINISTRADOR" ||

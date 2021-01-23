@@ -2,6 +2,7 @@ package com.backend.backend.services;
 
 import java.util.List;
 
+import com.backend.backend.models._Asistencia;
 import com.backend.backend.models._Guardia;
 
 import org.springframework.stereotype.Service;
@@ -15,6 +16,12 @@ public interface _GuardiaS {
 
     public _Guardia updateGuardia(Integer id, String opcion, Object value);
 
+    public _Asistencia addAsistencia(Integer idGuardia, Integer idUser);
+
     public void deleteGuardia(Integer ids[]);
+
+    public void deleteAsistencia(Integer id, Integer ids[]);
+
+    public _Asistencia updateAsistencia(Integer id, String opcion, Object value);
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import com.backend.backend.models._Cuarto;
 import com.backend.backend.models._Ubicacion;
 import com.backend.backend.models._User;
-import com.backend.backend.requests._AddUserByCuartoRqst;
+import com.backend.backend.requests._IdsRqst;
 import com.backend.backend.requests._DeleteRqst;
 import com.backend.backend.requests._NewRoomRqst;
 import com.backend.backend.requests._NewUbicacionRqst;
@@ -70,8 +70,8 @@ public class _UbicacionC {
     }
 
     @PostMapping("/persona")
-    private ResponseEntity<_User> addPersona(@RequestBody _AddUserByCuartoRqst rqst) {
-        return ResponseEntity.ok(serviceUbicacion.addUserForCuarto(rqst.getIdCuarto(), rqst.getIdUser()));
+    private ResponseEntity<_User> addPersona(@RequestBody _IdsRqst rqst) {
+        return ResponseEntity.ok(serviceUbicacion.addUserForCuarto(rqst.getId0(), rqst.getId1()));
     }
 
     @DeleteMapping("/persona")

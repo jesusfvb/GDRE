@@ -217,7 +217,21 @@ const App = () => {
             ) ? null : (
               <Route exact path="/cuarteleria" component={Cuarteleria} />
             )}
-            <Route exact path="/guardia" component={Guardia} />
+            {!session.authorities.some(
+              (a) =>
+                a === "ADMINISTRADOR" ||
+                a === "GESTION-GUARDIA-INTEGRANTES" ||
+                a === "GESTION-GUARDIA" ||
+                a === "AÑADIR-GUARDIA" ||
+                a === "MODIFICAR-GUARDIA" ||
+                a === "BORRAR-GUARDIA" ||
+                a === "GESTION-INTEGRANTES" ||
+                a === "AÑADIR-INTEGRANTES" ||
+                a === "MODIFICAR-INTEGRANTES" ||
+                a === "BORRAR-INTEGRANTES"
+            ) ? null : (
+              <Route exact path="/guardia" component={Guardia} />
+            )}
             <Route exact component={Error404} />
           </Switch>
         </Session.Provider>

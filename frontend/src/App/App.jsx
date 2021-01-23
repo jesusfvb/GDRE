@@ -12,6 +12,7 @@ import Home from "./components/_Home";
 import Users from "./components/_Users";
 import Ubicacion from "./components/_Ubicacion";
 import Cuarteleria from "./components/_Cuarteleria";
+import Guardia from "./components/_Guardia";
 
 //Constante que guardia en nombre de usuario, los permisos y una función para serrar sesión
 export const Session = React.createContext({
@@ -216,6 +217,7 @@ const App = () => {
             ) ? null : (
               <Route exact path="/cuarteleria" component={Cuarteleria} />
             )}
+            <Route exact path="/guardia" component={Guardia} />
             <Route exact component={Error404} />
           </Switch>
         </Session.Provider>

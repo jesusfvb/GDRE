@@ -22,7 +22,10 @@ const Formulario = (props) => {
   function handleSubmit(e) {
     e.preventDefault();
     let inputs = Array.from(e.target).filter(
-      (i) => i.tagName === "INPUT" || i.tagName === "TEXTAREA"
+      (i) =>
+        i.tagName === "INPUT" ||
+        i.tagName === "TEXTAREA" ||
+        i.tagName === "SELECT"
     );
     if (validadorInputs(inputs)) {
       props.onSubmit(inputs);

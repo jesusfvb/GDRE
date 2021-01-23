@@ -37,6 +37,15 @@ export const validadorInputs = (inputs) => {
       case "incidencia":
         valido = incidencia(i.value);
         break;
+      case "inicio":
+        valido = inicio(i.value);
+        break;
+      case "fin":
+        valido = fin(i.value);
+        break;
+      case "turno":
+        valido = turno(i.value);
+        break;
       default:
         break;
     }
@@ -103,6 +112,15 @@ export const validadorInput = (input, option) => {
       break;
     case "incidencia":
       valido = incidencia(input.value);
+      break;
+    case "inicio":
+      valido = inicio(input.value);
+      break;
+    case "fin":
+      valido = fin(input.value);
+      break;
+    case "turno":
+      valido = turno(input.value);
       break;
     default:
       break;
@@ -175,4 +193,26 @@ function evaluacion(value) {
 
 function incidencia() {
   return true;
+}
+
+function inicio(value) {
+  let salida = /[0-9][0-9]:[0-9][0-9]/.exec(value);
+  return salida !== null && salida[0] === value;
+}
+function fin(value) {
+  let salida = /[0-9][0-9]:[0-9][0-9]/.exec(value);
+  return salida !== null && salida[0] === value;
+}
+
+function turno(value) {
+  switch (value) {
+    case "...":
+      return false;
+    case "Residencia":
+      return true;
+    case "Docente":
+      return true;
+    default:
+      break;
+  }
 }
